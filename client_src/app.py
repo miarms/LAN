@@ -75,7 +75,8 @@ class MainApplication(tk.Tk):
         
         if self.client_socket:
             try:
-                paquet = f"CREATION:{pseudo}|{race}|{classe}\n"
+                # CORRECTION : On envoie les vraies stats au serveur !
+                paquet = f"CREATION:{pseudo}|{race}|{classe}|{pv}|{energie}|{pieces}\n"
                 self.client_socket.sendall(paquet.encode('utf-8'))
             except: pass
 
