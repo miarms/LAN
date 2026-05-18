@@ -1,77 +1,201 @@
+# serveur.py
 import socket
+import threading
+import csv
+import random
+import os
 
-PORT = 5555
-SERVEUR_IP = '0.0.0.0' 
-
-RACES = {
-    "Boomer":     {"FOR": 11, "DEX": 7,  "CON": 13, "INT": 8,  "SAG": 10, "CHA": 11, "PV": 100, "ENERGIE": 100, "PIECES": 130},
-    "Gen Z":      {"FOR": 8,  "DEX": 14, "CON": 8,  "INT": 13, "SAG": 8,  "CHA": 10, "PV": 90,  "ENERGIE": 110, "PIECES": 100},
-    "Provincial": {"FOR": 14, "DEX": 8,  "CON": 14, "INT": 9,  "SAG": 9,  "CHA": 6,  "PV": 110, "ENERGIE": 100, "PIECES": 100},
-    "Urbain":     {"FOR": 10, "DEX": 15, "CON": 9,  "INT": 10, "SAG": 6,  "CHA": 10, "PV": 100, "ENERGIE": 90,  "PIECES": 100},
-    "Tanguy":     {"FOR": 9,  "DEX": 12, "CON": 10, "INT": 14, "SAG": 8,  "CHA": 7,  "PV": 100, "ENERGIE": 100, "PIECES": 60},
-    "Karen":      {"FOR": 10, "DEX": 9,  "CON": 12, "INT": 6,  "SAG": 6,  "CHA": 17, "PV": 100, "ENERGIE": 100, "PIECES": 110},
-    "Chill Guy":  {"FOR": 8,  "DEX": 6,  "CON": 13, "INT": 10, "SAG": 15, "CHA": 8,  "PV": 110, "ENERGIE": 90,  "PIECES": 100}
-}
-
-CLASSES = {
-    "Syndicaliste":    {"FOR": 2, "DEX": 0, "CON": 0, "INT": 0, "SAG": 0, "CHA": 0, "PV": 20,  "ENERGIE": -10, "PIECES": 0},
-    "Influenceur":     {"FOR": 0, "DEX": 0, "CON": 0, "INT": 0, "SAG": 0, "CHA": 2, "PV": 0,   "ENERGIE": 0,   "PIECES": 10},
-    "Gourou":          {"FOR": 0, "DEX": 0, "CON": 0, "INT": 0, "SAG": 2, "CHA": 0, "PV": 0,   "ENERGIE": 10,  "PIECES": 0},
-    "Bobo Ecolo":      {"FOR": 0, "DEX": 0, "CON": 0, "INT": 0, "SAG": 2, "CHA": 0, "PV": 10,  "ENERGIE": 0,   "PIECES": -10},
-    "Fils de":         {"FOR": 0, "DEX": 0, "CON": 0, "INT": 0, "SAG": 0, "CHA": 2, "PV": 0,   "ENERGIE": 0,   "PIECES": 30},
-    "Cadre Superieur": {"FOR": 0, "DEX": 0, "CON": 2, "INT": 0, "SAG": 0, "CHA": 0, "PV": 10,  "ENERGIE": 10,  "PIECES": 0},
-    "Consultant":      {"FOR": 0, "DEX": 0, "CON": 0, "INT": 2, "SAG": 0, "CHA": 0, "PV": -10, "ENERGIE": 20,  "PIECES": 0},
-    "Adepte de Yoga":  {"FOR": 0, "DEX": 2, "CON": 0, "INT": 0, "SAG": 0, "CHA": 0, "PV": 0,   "ENERGIE": 20,  "PIECES": -10},
-    "Stagiaire":       {"FOR": 0, "DEX": 0, "CON": 0, "INT": 2, "SAG": 0, "CHA": 0, "PV": 0,   "ENERGIE": 0,   "PIECES": -20},
-    "Leche-botte":     {"FOR": 0, "DEX": 0, "CON": 2, "INT": 0, "SAG": 0, "CHA": 0, "PV": 10,  "ENERGIE": 0,   "PIECES": 10},
-    "Teletravailleur": {"FOR": 0, "DEX": 2, "CON": 0, "INT": 0, "SAG": 0, "CHA": 0, "PV": 10,  "ENERGIE": 0,   "PIECES": 0},
-    "Commercial":      {"FOR": 0, "DEX": 2, "CON": 0, "INT": 0, "SAG": 0, "CHA": 0, "PV": 0,   "ENERGIE": -10, "PIECES": 20}
-}
-
-serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-serveur.bind((SERVEUR_IP, PORT))
-serveur.listen(2)
-
-print(f"[LAN] Serveur en attente sur le port {PORT}...")
+# Configuration réseau
+HOST = '0.0.0.0'
+PORT = 55555
 
 sockets_joueurs = []
-while len(sockets_joueurs) < 2:
-    client_socket, client_address = serveur.accept()
-    client_socket.sendall(b"En attente du second aventurier...\n")
-    sockets_joueurs.append(client_socket)
+verrou_joueurs = threading.Lock()
 
-print("[GAME] Les deux joueurs sont connectes. Notification envoyee.")
-for sock in sockets_joueurs:
-    sock.sendall(b"Les deux joueurs sont presents. Debut de la partie.\n")
+# Compteur pour la synchronisation des fiches de personnages
+fiches_recues = 0
+verrou_fiches = threading.Lock()
 
-fiches_personnages = {}
+# ---------------------------------------------------------------------
+# FONCTIONS UTILITAIRES / GAME DESIGN
+# ---------------------------------------------------------------------
+def formater_nom_fichier(nom_carte):
+    """Transforme le nom brut d'une carte en nom de fichier standardisé."""
+    nom = nom_carte.lower()
+    nom = nom.replace(" ", "-").replace("'", "-")
+    accents = {"é": "e", "è": "e", "à": "a", "ù": "u", "ç": "c", "ô": "o", "â": "a", "î": "i"}
+    for original, remplace in accents.items():
+        nom = nom.replace(original, remplace)
+    return f"{nom}.png"
 
-# Le serveur se met en attente des paquets de création des deux clients
-for i, sock in enumerate(sockets_joueurs, 1):
-    print(f"[ATTENTE] En attente de la fiche du Joueur {i}...")
+# ---------------------------------------------------------------------
+# CHARGEMENT DES DECKS DEPUIS LE DOSSIER db/
+# ---------------------------------------------------------------------
+deck_trahisons = []
+chemin_trahisons = os.path.join("db", "Jeu Mia - Trahisons.csv")
+
+try:
+    with open(chemin_trahisons, mode="r", encoding="utf-8") as f:
+        lecteur = csv.DictReader(f)
+        for ligne in lecteur:
+            if ligne.get("Nom"):
+                deck_trahisons.append(ligne)
+    print(f"[DATA] {len(deck_trahisons)} cartes de trahison chargées depuis db/.")
+except Exception as e:
+    print(f"[ERREUR] Impossible de charger le fichier dans db/ : {e}")
+
+# ---------------------------------------------------------------------
+# LOGIQUE DU JEU & PROTOCOLE
+# ---------------------------------------------------------------------
+def distribuer_trahisons_secretes():
+    """Pioche et envoie une carte de trahison unique à chaque joueur."""
+    global deck_trahisons, sockets_joueurs
+    print("[JEU] Déclenchement de la distribution des coups de traître...")
+    
+    with verrou_joueurs:
+        for i, sock in enumerate(sockets_joueurs, 1):
+            if deck_trahisons:
+                carte_piochee = random.choice(deck_trahisons)
+                nom = carte_piochee["Nom"]
+                effet = carte_piochee["Effet"]
+                cout = carte_piochee["Cout"]
+                fichier_img = formater_nom_fichier(nom)
+                
+                # Envoi de la carte secrète
+                commande_carte = f"TRAHISON:RECUE|{nom}|{effet}|{cout}|{fichier_img}\n"
+                try:
+                    sock.sendall(commande_carte.encode('utf-8'))
+                    print(f"[RESEAU] Trahison secrète envoyée au Joueur {i} : {nom}")
+                    
+                    # Info discrète à l'autre joueur
+                    autre_sock = sockets_joueurs[1] if i == 1 else sockets_joueurs[0]
+                    autre_sock.sendall("HISTOIRE:[INFO] L'autre joueur a reçu une carte face cachée...\n".encode('utf-8'))
+                except Exception as ex:
+                    print(f"[ERREUR] Échec de l'envoi de la carte au Joueur {i} : {ex}")
+
+def lancer_partie():
+    """Déclenche le changement d'écran chez les clients et envoie l'intro."""
+    print("[JEU] Deux joueurs connectés. Lancement de l'ambiance.")
+    
+    # 1. SIGNAL CRUCIAL : Dit à app.py de basculer sur l'écran de création !
+    diffuser_a_tous("HISTOIRE:Les deux joueurs sont presents\n")
+    
+    # 2. Envoi du texte d'ambiance
+    intro_texte = (
+        "HISTOIRE:\n"
+        "===============================================\n"
+        "           LE DONJON DE LA DISCORDE            \n"
+        "===============================================\n"
+        "Les portes se referment. L'inconnu s'éveille.\n"
+        "Pour survivre, explorez, gérez vos ressources\n"
+        "et fiez-vous à vos dés. Restez vigilants.\n"
+        "===============================================\n\n"
+    )
+    diffuser_a_tous(intro_texte)
+    
+    # 3. Distribution des cartes de trahison
+    distribuer_trahisons_secretes()
+
+def diffuser_a_tous(message):
+    """Envoie un message réseau à tous les joueurs connectés."""
+    with verrou_joueurs:
+        for sock in sockets_joueurs:
+            try:
+                sock.sendall(message.encode('utf-8'))
+            except Exception as e:
+                print(f"[RESEAU] Erreur de diffusion : {e}")
+
+# ---------------------------------------------------------------------
+# GESTION DES CONNEXIONS CLIENTS
+# ---------------------------------------------------------------------
+def gerer_client(client_socket, client_address):
+    global fiches_recues
+    print(f"[RESEAU] Nouvelle connexion établie depuis : {client_address}")
+    
+    commencer_jeu = False
+    with verrou_joueurs:
+        if len(sockets_joueurs) < 2:
+            sockets_joueurs.append(client_socket)
+            
+            # Si c'est le premier joueur, on lui envoie le signal d'attente requis par app.py
+            if len(sockets_joueurs) == 1:
+                client_socket.sendall("HISTOIRE:En attente du second aventurier\n".encode('utf-8'))
+                
+            if len(sockets_joueurs) == 2:
+                commencer_jeu = True
+        else:
+            print(f"[RESEAU] Connexion refusée pour {client_address} : Session pleine (2/2).")
+            try:
+                client_socket.sendall("HISTOIRE:[ERREUR] Le donjon est complet.\n".encode('utf-8'))
+            except:
+                pass
+            client_socket.close()
+            return
+
+    if commencer_jeu:
+        lancer_partie()
+
+    # Boucle d'écoute
+    while True:
+        try:
+            donnees = client_socket.recv(1024)
+            if not donnees:
+                break
+            
+            requete = donnees.decode('utf-8').strip()
+            print(f"[RESEAU] Reçu de {client_address} : {requete}")
+            
+            # SIGNAL CRUCIAL : Quand un joueur valide sa fiche de perso
+            if requete.startswith("CREATION:"):
+                with verrou_fiches:
+                    fiches_recues += 1
+                    print(f"[JEU] Fiche de personnage reçue ({fiches_recues}/2)")
+                    if fiches_recues == 2:
+                        # Dit à app.py que tout le monde est prêt -> Bascule sur l'écran de jeu final !
+                        diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
+            
+            if requete.startswith("UTILISER_TRAHISON"):
+                pass
+                
+        except ConnectionResetError:
+            break
+        except Exception as e:
+            print(f"[ERREUR] Problème durant l'écoute de {client_address} : {e}")
+            break
+
+    print(f"[RESEAU] Joueur déconnecté : {client_address}")
+    with verrou_joueurs:
+        if client_socket in sockets_joueurs:
+            sockets_joueurs.remove(client_socket)
+    client_socket.close()
+
+# ---------------------------------------------------------------------
+# DEMARRAGE DU SERVEUR
+# ---------------------------------------------------------------------
+def demarrer_serveur():
+    serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
     try:
-        donnees = sock.recv(1024).decode('utf-8').strip()
-        if donnees.startswith("CREATION:"):
-            # Dépaquetage du format : CREATION:pseudo|race|classe
-            payload = donnees.replace("CREATION:", "")
-            pseudo, race, classe = payload.split("|")
-            
-            stats_r = RACES[race]
-            stats_c = CLASSES[classe]
-            
-            fiches_personnages[i] = {
-                "pseudo": pseudo, "race": race, "classe": classe,
-                "PV": stats_r["PV"] + stats_c["PV"], 
-                "ENERGIE": stats_r["ENERGIE"] + stats_c["ENERGIE"], 
-                "PIECES": stats_r["PIECES"] + stats_c["PIECES"]
-            }
-            print(f"[SUCCES] Personnage Joueur {i} valide : {pseudo} ({race} {classe})")
+        serveur.bind((HOST, PORT))
+        serveur.listen(2)
+        print(f"===============================================")
+        print(f"[SERVEUR] MJ en ligne sur le port {PORT}...")
+        print(f"[SERVEUR] En attente de braves joueurs...")
+        print(f"===============================================")
     except Exception as e:
-        print(f"[ERREUR] Perte de connexion avec le Joueur {i} : {e}")
+        print(f"[ERREUR] Impossible de lancer le serveur : {e}")
+        return
 
-print("\n[GAME] Toutes les fiches de personnages sont enregistrees :")
-print(fiches_personnages)
+    try:
+        while True:
+            client_sock, client_addr = serveur.accept()
+            thread = threading.Thread(target=gerer_client, args=(client_sock, client_addr), daemon=True)
+            thread.start()
+    except KeyboardInterrupt:
+        print("\n[SERVEUR] Extinction du Donjon par le MJ.")
+    finally:
+        serveur.close()
 
-for sock in sockets_joueurs:
-    sock.sendall(b"Fiches de personnages synchronisees avec succes ! Fin de la demo.\n")
-    sock.close()
+if __name__ == "__main__":
+    demarrer_serveur()

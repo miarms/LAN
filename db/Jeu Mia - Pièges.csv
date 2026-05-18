@@ -1,0 +1,8 @@
+Nom,Dégats,Caractéristique,Validation,Notes
+Le trou,1d6,vous tombez,OK,
+Piège à ours,1d6,Pas de chance ! Vous mettez le pied en plein dedans,OK,
+Mercenaire,2 d 3,votre tête a été mise à prix,OK,
+Fléchettes empoisonnées,4d3,"Vous marchez sur une plaque de fer dissumulée qui déclenche un piege de 4 fleches, possibilité d'esquivé",OK,
+Fosse à fermeture,1d3,"En plus de subir des dégats, vous ne jouerais pas votre prochain tour car vous êtes enfermé",OK,
+Sphère roulante,1d6,Un gros rocher se met à rouler vers vous,OK,
+Sable mouvant,1d6,Vous vous enfoncez profondément ,OK,

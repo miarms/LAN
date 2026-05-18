@@ -1,0 +1,51 @@
+Type,Nom,Declencheur,Description,Effet,Cout,Validation
+Sabotage,Peau de banane tactique,Deplacement,Un grand classique. Glissee pile sous la botte de votre camarade au moment de changer de piece.,-15 Energie a la victime,10 Energie,OK
+Vol,Taxe carbone imaginaire,Hors combat,Vous inventez une regle obscure du donjon pour extorquer votre partenaire.,Vole 30 pieces a la victime,0 Cout,OK
+Bluff,Faux point faible,Combat de l'autre,"Vous hurlez ""Attaque les yeux !"" alors que le monstre y est totalement immunise.",-3 au prochain jet d'attaque de l'autre,15 Energie,OK
+Malus,Lacet defait,Combat de l'autre,Une petite distraction mesquine juste au moment ou l'autre arme son coup.,-20 Energie a la victime,5 Energie,OK
+Poison,Potion perimee,A tout moment,Vous versez un fond de fiole suspecte dans la gourde de votre coequipier.,-10 PV immediats a la victime,15 Energie,OK
+Sabotage,Courant d'air suspect,Jet de des de l'autre,Vous soufflez discretement sur le de de votre voisin au moment ou il s'arrete.,Force l'autre a relancer son de,10 Energie,OK
+Vol,Pickpocket amical,Hors combat,Un calin de felicitation un peu trop insistant apres un combat reussi.,Vole 1 Equipement aleatoire a l'autre,20 Energie,OK
+Bluff,Mirage de la fontaine,Deplacement,Vous jurez avoir vu une fontaine de soin dans le couloir de gauche. C'etait un mur.,L'autre perd son prochain tour de fouille,10 Energie,OK
+Malus,Crampe subite,Combat de l'autre,"Vous lui massez le molet de maniere ultra-agressive pour ""l'aider"". Met hors de combat.",L'autre rate sa prochaine esquive,10 Energie,OK
+Poison,Poussiere dans l'oeil,Jet de des de l'autre,Vous secouez une vieille nappe poussiereuse juste devant ses yeux.,-4 au jet de Dex de la victime,5 Energie,OK
+Sabotage,Serrure grippee,Fouille de l'autre,Vous glissez un bout de chewing-gum dans le cadenas du coffre avant qu'il ne l'ouvre.,L'autre echoue automatiquement sa fouille,10 pieces,OK
+Vol,Fausse monnaie,Marchand,Vous echangez discretement vos pieces de plomb contre ses vraies pieces d'or.,Vole 20 pieces a la victime,5 Energie,OK
+Bluff,Rumeur de couloir,A tout moment,Vous lui racontez que le prochain monstre devore les pieces d'or.,L'autre jette 15 pieces au sol par peur,0 Cout,OK
+Malus,Sac de briques,Deplacement,Vous glissez discretement un enorme pavet dans son sac a dos.,-2 a tous les jets de Dex de l'autre (1 tour),10 Energie,OK
+Poison,Champignon farceur,Hors combat,Vous effritez un champignon hallucinogene au-dessus de sa ration.,L'autre attaque le vide au prochain tour,15 Energie,OK
+Sabotage,Corde fragilisee,Deplacement,Un petit coup de canif sur la corde de rappel pendant qu'il regarde ailleurs.,-15 PV si l'autre tente une escalade,10 Energie,OK
+Vol,Partage inegal,Fin de combat,Vous ramassez le butin a toute vitesse en feignant la maladresse.,Vous prenez 75% des pieces du monstre tue,0 Cout,OK
+Bluff,Faux pas heroique,Combat de l'autre,"Vous poussez l'autre face au monstre en criant ""Je te couvre !""",L'autre prend les degats a votre place,10 Energie,OK
+Malus,Bouclier fissure,Combat de l'autre,"Vous donnez un coup de pied dans son bouclier ""pour tester sa solidite"".",-5 a la CA/Defense de l'autre (1 tour),5 Energie,OK
+Poison,Encens de l'oubli,Hors combat,Vous allumez une herbe bizarre qui embrume totalement l'esprit de votre ami.,L'autre perd 1 Sort au hasard pour la piece,20 Energie,OK
+Sabotage,Torche mouillee,Deplacement,Vous eternuez par megarde sur sa seule source de lumiere.,L'autre rate ses jets dans le noir (1 tour),5 Energie,OK
+Vol,Emprunt de longue duree,A tout moment,"Vous lui piquez une potion de soin ""juste pour lire l'etiquette"".",Prend 1 Potion de la victime,5 Energie,OK
+Bluff,Faux marchand,Marchand,Vous vous deguisez grossierement pour lui vendre un objet inutile.,L'autre vous paie 30 pieces pour du vent,15 Energie,OK
+Malus,Arme mal huilee,Combat de l'autre,Vous versez du sirop de poire sur la garde de son epee.,L'autre lache son arme au prochain echec,10 Energie,OK
+Poison,Glaise collante,Deplacement,Vous lui jetez de la boue magique sur ses bottes de marque.,-20 Energie au prochain deplacement,10 Energie,OK
+Sabotage,Eternuement synchrone,Fouille de l'autre,"Vous hurlez ""ATCHOUM"" au moment ou il tente de desamorcer un piege.",Force le declenchement du piege de l'autre,10 Energie,OK
+Vol,Heritage conteste,Fin de combat,Vous affirmez que le compagnon decede vous avait tout legue par ecrit.,Recupere les gains de niveau de l'autre,20 pieces,OK
+Bluff,Fausse alerte,A tout moment,"Vous criez ""ATTENTION UN DRAGON !"" pour qu'il lache ce qu'il fait.",Annule l'action en cours de l'autre,5 Energie,OK
+Malus,Sifflement agacant,Jet de des de l'autre,Vous sifflez une melodie ultra-repetitive et impossible a ignorer.,-2 a tous les jets de l'autre (1 tour),5 Energie,OK
+Poison,Ortie de donjon,Combat de l'autre,Vous lui frottez une feuille d'ortie geante dans le cou en douce.,-10 PV et -10 Energie a la victime,15 Energie,OK
+Sabotage,Cape emmelee,Combat de l'autre,Vous marchez sur le bout de sa cape d'apparat au pire moment.,L'autre ne peut pas fuir ce combat,10 Energie,OK
+Vol,Dime arbitraire,Marchand,Vous decretez que vous etes le tresorier officiel de cette piece.,Vous touchez 10% sur les achats de l'autre,0 Cout,OK
+Bluff,Pacte imaginaire,A tout moment,Vous lui faites jurer un faux serment divin sous peine de malediction.,L'autre doit vous donner sa prochaine trouvaille,15 Energie,OK
+Malus,Armure deboulonnee,Combat de l'autre,"Vous desserrez une sangle cruciale de sa cuirasse ""pour l'aider a respirer"".",La victime subit +5 degats aux attaques,10 Energie,OK
+Poison,Poudre de perlimpinpin,Jet de des de l'autre,Une poignee de sable brillant lancee en plein visage.,L'autre fait un dechet automatique sur son de,15 pieces,OK
+Sabotage,Guide a l'envers,Deplacement,Vous tenez la carte du donjon a l'envers volontairement.,Fait perdre 1 case a tout le groupe,10 Energie,OK
+Vol,Taxes de sejour,Deplacement,Vous demandez une participation pour l'usure de vos propres bottes.,L'autre vous donne 15 pieces,0 Cout,OK
+Bluff,Fausse immunite,Combat de l'autre,Vous lui dites que le venin du serpent soigne les rhumes.,L'autre refuse de se soigner du poison,10 Energie,OK
+Malus,Mot demaquillant,A tout moment,Vous lui lancez une insulte si bien placee qu'il en perd sa concentration.,-20 Energie a la victime,5 Energie,OK
+Poison,Parfum de l'ours,Combat de l'autre,Vous l'aspergez d'une odeur qui rend les monstres totalement enrages.,Le monstre attaque uniquement l'autre joueur,20 Energie,OK
+Sabotage,De pipe,Jet de des de l'autre,Vous remplacez son de par un de charge qui ne fait que des petits chiffres.,Le prochain jet d'attaque de l'autre fait 1,15 pieces,OK
+Vol,Recel de medailles,A tout moment,Vous lui subtilisez ses preuves d'exploits de sa sacoche.,Vole 1 Gain de niveau a la victime,25 Energie,OK
+Bluff,Faux tresor,Fouille de l'autre,"Vous criez ""Oh de l'or !"" en montrant un nid de frelons metalliques.",L'autre fouille le nid et subit 1d6 degats,10 Energie,OK
+Malus,Cri strident,Jet de des de l'autre,Un hurlement de terreur simule pile au moment de son lancer.,-3 au resultat du de de l'autre,5 Energie,OK
+Poison,Morsure amicale,A tout moment,"Vous pincez l'autre tres fort en accusant un ""rat invisible"".",-5 PV a la victime,5 Energie,OK
+Sabotage,Planque de boussole,Deplacement,Vous posez un aimant a cote de sa boussole fetiche.,Le prochain deplacement se fait au hasard,10 Energie,OK
+Vol,Racket passif,Marchand,Vous soupirez tellement fort devant la boutique qu'il se sent oblige de vous rincer.,L'autre vous achete un objet de max 20 pieces,5 Energie,OK
+Bluff,Contrat de dupe,Hors combat,"Vous lui faites signer un papier officiel pour ""partager les risques"".",L'autre prend 100% de votre prochain malus,20 Energie,OK
+Malus,Croche-pied fraternel,Deplacement,Oups ! Un ecart malencontreux de trajectoire dans les escaliers.,L'autre tombe et perd 10 PV,10 Energie,OK
+Poison,Purger l'exces,Hors combat,Vous glissez un laxatif surpuissant dans sa popo a la pasteque.,L'autre passe son prochain tour a se vider,15 Energie,OK

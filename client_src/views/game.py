@@ -1,5 +1,8 @@
 import tkinter as tk
+import os
+from PIL import Image, ImageTk
 from client_src.views.dice import DiceModule
+from client_src.views.card import WelcomeCard
 
 class GameView(tk.Frame):
     def __init__(self, parent, controller):
@@ -9,14 +12,16 @@ class GameView(tk.Frame):
         self.max_pv = 150
         self.max_en = 150
         self.stats_completes = {}
+        self.swipe_en_cours = False
         
-        # --- 1. BANDEAU SUPÉRIEUR (Anthracite) ---
+        # =====================================================================
+        # 1. BANDEAU SUPÉRIEUR : INFO JOUEUR
+        # =====================================================================
         self.top_bar = tk.Frame(self, bg="#22252a", padx=20, pady=15)
         self.top_bar.pack(fill=tk.X, side=tk.TOP)
         
         self.lbl_player = tk.Label(self.top_bar, text="Aventurier", font=("Segoe UI", 13, "bold"), bg="#22252a", fg="#ffffff", cursor="question_arrow")
         self.lbl_player.pack(side=tk.LEFT, padx=(0, 30))
-        
         self.lbl_player.bind("<Enter>", self.afficher_infobulle)
         self.lbl_player.bind("<Leave>", self.masquer_infobulle)
         
@@ -47,59 +52,136 @@ class GameView(tk.Frame):
         sep = tk.Frame(self, height=1, bg="#2d3139")
         sep.pack(fill=tk.X, side=tk.TOP)
 
-        # --- CONTENEUR CENTRAL SPLIT ---
+        # =====================================================================
+        # CONTENEUR CENTRAL DES 3 COLONNES
+        # =====================================================================
         self.main_area = tk.Frame(self, bg="#1a1c20")
-        self.main_area.pack(fill=tk.BOTH, expand=True, padx=40, pady=30)
+        self.main_area.pack(fill=tk.BOTH, expand=True, padx=25, pady=25)
 
-        # --- 2. JOURNAL DE NARRATION (GAUCHE) ---
-        self.left_panel = tk.Frame(self.main_area, bg="#22252a", padx=15, pady=15)
-        self.left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 15))
+        # --- COLONNE GAUCHE : STACK [MJ CARD + BULLE] + [HISTORIQUE] ---
+        self.left_column = tk.Frame(self.main_area, bg="#1a1c20", width=320)
+        self.left_column.pack(side=tk.LEFT, fill=tk.BOTH, expand=False, padx=(0, 10))
+        self.left_column.pack_propagate(False)
+
+        self.mj_panel = tk.Frame(self.left_column, bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
+        self.mj_panel.pack(side=tk.TOP, fill=tk.BOTH, expand=True, pady=(0, 10))
         
-        tk.Label(self.left_panel, text="JOURNAL DU DONJON", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", padx=5, pady=(0, 10))
+        tk.Label(self.mj_panel, text="MAÎTRE DU JEU", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w")
         
-        self.text_area = tk.Text(
-            self.left_panel, wrap=tk.WORD, state=tk.DISABLED, 
-            bg="#22252a", fg="#ffffff", font=("Segoe UI", 11),
-            bd=0, highlightthickness=0, insertbackground="white"
+        chemin_mj = os.path.join("client_src", "rsc", "img", "MJ.png")
+        try:
+            img_mj = Image.open(chemin_mj)
+            img_mj = img_mj.resize((160, 160), Image.Resampling.LANCZOS)
+            self.tk_img_mj = ImageTk.PhotoImage(img_mj)
+            self.lbl_mj_image = tk.Label(self.mj_panel, image=self.tk_img_mj, bg="#22252a")
+            self.lbl_mj_image.pack(pady=10)
+        except Exception as e:
+            self.lbl_mj_image = tk.Label(self.mj_panel, text="💬", font=("Segoe UI", 24), bg="#22252a", fg="#86868B")
+            self.lbl_mj_image.pack(pady=10)
+
+        self.mj_bubble_frame = tk.Frame(self.mj_panel, bg="#2d3139", padx=12, pady=12, highlightbackground="#3a3f47", highlightthickness=1)
+        self.mj_bubble_frame.pack(fill=tk.X, side=tk.TOP, padx=5)
+        
+        self.lbl_mj_speech = tk.Label(self.mj_bubble_frame, text="Regardez ce que le destin vous réserve...", font=("Segoe UI", 10, "italic"), bg="#2d3139", fg="#ffffff", wraplength=250, justify="center")
+        self.lbl_mj_speech.pack(fill=tk.BOTH, expand=True)
+
+        self.history_panel = tk.Frame(self.left_column, bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
+        self.history_panel.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        
+        tk.Label(self.history_panel, text="HISTORIQUE DES ACTIONS", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
+        self.text_area = tk.Text(self.history_panel, wrap=tk.WORD, state=tk.DISABLED, bg="#22252a", fg="#ffffff", font=("Segoe UI", 10), bd=0, highlightthickness=0, insertbackground="white")
+        self.text_area.pack(fill=tk.BOTH, expand=True, pady=5)
+
+        # ---------------------------------------------------------------------
+        # COLONNE CENTRALE : ZONE DES CARTES & DÉCISIONS
+        # ---------------------------------------------------------------------
+        self.center_column = tk.Frame(self.main_area, bg="#22252a", padx=25, pady=25, highlightbackground="#3a3f47", highlightthickness=1)
+        self.center_column.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+        
+        tk.Label(self.center_column, text="ZONE DE JEU / CARTES", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 15))
+        
+        # Conteneur pour intégrer tes visuels de cartes ou choix actuels
+        self.card_display_area = tk.Frame(self.center_column, bg="#22252a")
+        self.card_display_area.pack(fill=tk.BOTH, expand=True)
+        
+        # --- LOGIQUE DE LA CARTE DE BIENVENUE INSTANTANÉE ---
+        # On crée le callback qui affichera les boutons d'actions REELS du serveur APRES le swipe
+        def action_apres_swipe():
+            self.lbl_action_title.pack(anchor="n", pady=(10, 15))
+            self.buttons_container.pack(fill=tk.X, anchor="n")
+            # Optionnel : Tu pourrais ici envoyer un message au serveur pour lui dire que le joueur est prêt !
+        
+        # On instancie la carte de bienvenue et on la pack au centre
+        self.welcome_card = WelcomeCard(
+            parent=self.card_display_area, 
+            controller=self.controller, 
+            on_start_callback=action_apres_swipe
         )
-        self.text_area.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        # --- 3. COLONNE DE DROITE (CORRIGÉE EN ANTHRACITE) ---
-        self.right_area = tk.Frame(self.main_area, bg="#1a1c20", width=320)
-        self.right_area.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False, padx=(15, 0))
-        self.right_area.pack_propagate(False)
-
-        # Panneau des décisions (FOND SOMBRE REPARÉ)
-        self.right_panel = tk.Frame(self.right_area, bg="#22252a", padx=25, pady=25)
-        self.right_panel.pack(side=tk.TOP, fill=tk.X, expand=False)
+        self.welcome_card.pack(expand=True, pady=10)
         
-        self.lbl_action_title = tk.Label(self.right_panel, text="DÉCISION REQUISE", font=("Segoe UI", 11, "bold"), bg="#22252a", fg="#a0a5b0")
-        self.lbl_action_title.pack(anchor="w", pady=(0, 20))
+        # Les éléments de décisions standards du serveur sont masqués au début (ils attendent le swipe)
+        self.lbl_action_title = tk.Label(self.card_display_area, text="DÉCISION REQUISE", font=("Segoe UI", 12, "bold"), bg="#22252a", fg="#ffffff")
+        self.buttons_container = tk.Frame(self.card_display_area, bg="#22252a")
+
+        # --- COLONNE DROITE : STACK [DÉ] + [INVENTAIRE] ---
+        self.right_column = tk.Frame(self.main_area, bg="#1a1c20", width=260)
+        self.right_column.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False, padx=(10, 0))
+        self.right_column.pack_propagate(False)
+
+        self.dice_panel = tk.Frame(self.right_column, bg="#1a1c20")
+        self.dice_panel.pack(side=tk.TOP, fill=tk.BOTH, expand=True, pady=(0, 10))
+        self.dice_module = DiceModule(parent=self.dice_panel, controller=controller)
+        self.dice_module.pack(fill=tk.BOTH, expand=True)
+
+        self.inventory_panel = tk.Frame(self.right_column, bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
+        self.inventory_panel.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
-        self.buttons_container = tk.Frame(self.right_panel, bg="#22252a")
-        self.buttons_container.pack(fill=tk.X, expand=True, anchor="n")
+        tk.Label(self.inventory_panel, text="MENU POUR INVENTAIRE", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
+        self.lbl_inv_placeholder = tk.Label(self.inventory_panel, text="🎒 [Inventaire Vide]", font=("Segoe UI", 11, "italic"), bg="#22252a", fg="#86868B")
+        self.lbl_inv_placeholder.pack(expand=True)
 
-        # Séparateur discret
-        sep_dark = tk.Frame(self.right_area, height=1, bg="#2d3139")
-        sep_dark.pack(fill=tk.X, pady=15)
+    # =====================================================================
+    # INTERACTION : ANIMATION DE SWIPE TINDER
+    # =====================================================================
+    def declencher_swipe_tinder(self):
+        """Lance l'animation de propulsion de la carte vers la droite"""
+        if self.swipe_en_cours: return
+        self.swipe_en_cours = True
+        
+        def anim_loop():
+            # On récupère la position actuelle du calque sur le Canvas
+            current_coords = self.welcome_canvas.coords(self.card_item)
+            
+            # Si le centre de la carte n'est pas encore sorti loin à droite de l'écran (ex: x > 600)
+            if current_coords and current_coords[0] < 600:
+                # On pousse de 30px vers la droite, et on monte de 4px pour l'effet de rotation/lancé
+                self.welcome_canvas.move(self.card_item, 30, -4)
+                if hasattr(self, 'text_item'): 
+                    self.welcome_canvas.move(self.text_item, 30, -4)
+                
+                # On redemande un rafraîchissement dans 12 millisecondes (Ultra fluide)
+                self.after(12, anim_loop)
+            else:
+                # L'animation est finie, on nettoie le Canvas de bienvenue
+                self.welcome_canvas.pack_forget()
+                
+                # On révèle MAGIQUEMENT le panneau des vrais choix stratégiques du MJ
+                self.lbl_action_title.pack(anchor="n", pady=(10, 15))
+                self.buttons_container.pack(fill=tk.X, anchor="n")
 
-        # Module Dé intégré juste en dessous
-        self.dice_module = DiceModule(parent=self.right_area, controller=controller)
-        self.dice_module.pack(side=tk.TOP, fill=tk.X, expand=False)
+        anim_loop()
 
-    # --- MÉTHODES DE L'INFOBULLE ---
+    # =====================================================================
+    # MÉTHODES DE LOGIQUE RECOPIÉES (Zéro régression)
+    # =====================================================================
     def afficher_infobulle(self, event):
         if not self.stats_completes: return
         self.tooltip = tk.Toplevel(self)
         self.tooltip.wm_overrideredirect(True)
         self.tooltip.config(bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
-        
-        x = event.x_root + 15
-        y = event.y_root + 15
+        x, y = event.x_root + 15, event.y_root + 15
         self.tooltip.wm_geometry(f"+{x}+{y}")
-        
         tk.Label(self.tooltip, text="CARACTÉRISTIQUES", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#00e5ff").grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 8))
-        
         for idx, (stat, val) in enumerate(self.stats_completes.items(), 1):
             tk.Label(self.tooltip, text=stat, font=("Segoe UI", 10), bg="#22252a", fg="#a0a5b0").grid(row=idx, column=0, sticky="w", pady=2)
             tk.Label(self.tooltip, text=str(val), font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#ffffff").grid(row=idx, column=1, sticky="e", padx=(25, 0), pady=2)
@@ -109,7 +191,6 @@ class GameView(tk.Frame):
             self.tooltip.destroy()
             self.tooltip = None
 
-    # --- ENVOIS ET MISES A JOUR ---
     def ajouter_narration(self, text):
         self.text_area.config(state=tk.NORMAL)
         self.text_area.insert(tk.END, text + "\n")
@@ -121,13 +202,12 @@ class GameView(tk.Frame):
         self.pv_lbl.config(text=str(val_pv))
         self.en_lbl.config(text=str(val_en))
         self.pieces_lbl.config(text=f"{pieces} 🪙")
-        
         self.pv_bar_fill.place_configure(relwidth=max(0.0, min(val_pv / self.max_pv, 1.0)))
         self.en_bar_fill.place_configure(relwidth=max(0.0, min(val_en / self.max_en, 1.0)))
 
     def configurer_nom_joueur(self, pseudo, race, classe):
         self.lbl_player.config(text=f"{pseudo} ({race} {classe})")
-        from client_src.views.dice import RACES, CLASSES # Import local sécurisé
+        from client_src.views.dice import RACES, CLASSES
         if race in RACES and classe in CLASSES:
             self.stats_completes = {
                 "FORCE (FOR)": RACES[race]["FOR"] + CLASSES[classe]["FOR"],
@@ -140,8 +220,7 @@ class GameView(tk.Frame):
 
     def generer_choix_boutons(self, titre_action, liste_options):
         for widget in self.buttons_container.winfo_children(): widget.destroy()
-        self.lbl_action_title.config(text=titre_action.upper(), fg="#a0a5b0")
-        
+        self.lbl_action_title.config(text=titre_action.upper(), fg="#ffffff")
         for idx, option in enumerate(liste_options, 1):
             btn = tk.Button(
                 self.buttons_container, text=f"{idx}. {option}", font=("Segoe UI", 11),

@@ -1,0 +1,1000 @@
+Map,Monstre,PV,Caractéristiques,Nb dégats,Point faible,Gains de niveau,Gains de pièces,Validation ,Notes ,Valentin,Mia
+"1, 0",Desseur Pokénul,10,"Le desseur le plus nul de sa génération à tel point qu'il jette des cailloux en criant ""attaque caillou racaille"" malgré son excentricitré vous envoi de caillou qu'il vous font des dégats",1d3 par attaque,,2,10,A revoir,A revoir  au niv de la formulation des caractéristiques mais sinon OK,TRUE,FALSE
+"1, 0",Trotro l'âne,7,"Une mélodie vous rentre dans la tête, vous ne pouvez l'attaquez au premier tours et en profites pour vous donnez des coups de sabot",1d3 premier tour vous ne pouvez pas l'esquiver,,2,10,OK,,TRUE,FALSE
+"1, 0",Le serpent tourmenter,5,Ce serpent a perdu l'une de ses dents si vous avez la chance d'être tomber dessus le serpent vous laissera tranquille sinon il essaira de vous empoisonner,1d3 pour la morsure // 1 point de dégat pour le poison // 1d6 pour connaitre le nombre de tours que le poison fais effet,,3,10,OK,,FALSE,FALSE
+"2, 0",La main baladeuse,6,"Cette main sans corps se balade, vous fait un doigts d'honneur et vous roues de coups. De plus, en cas de défaites, elle vous pique 5 pièces",1d3 par attaque,,1,10,OK,,FALSE,FALSE
+4,Chien punk ébourrifé,20,Il fuit instantanément si vous avez des croquettes mais ne vous permet pas de gagné si vous êtes au dernier combat,1d6,Croquettes,4,50,OK,,FALSE,FALSE
+"1, 0",Hémophile,6,Est-ce que vous allez vous taper avec un hémophile ? A vous de me le dire. ,1d3,Saignement,1,5,OK,,FALSE,FALSE
+2,Une bande de groupie,10,"Elles sont folle de vous et vous arrache vous vêtemes en cas de défaites, ",1d3,,2,20,A revoir,,FALSE,FALSE
+0,le lépreux,5,S'il vous touche vous attraper un parasite,1d3,,1,5,A revoir,,FALSE,FALSE
+"1, 2",Le Satyre,7,"Un penchant pour les enfants, les attires grâces à sa Flute et vous tape avec ses sabots",1d6,Magie de glace,2,10,A revoir,,FALSE,FALSE
+1,Lycaon,10,Robert est un homme simple mais la nuit devient une bête sanguinaire qui perd le contôle de toute raison,1 d 6 et 1 dégats par tours saignement,Feu,1,10,,,FALSE,FALSE
+0,Sucube,15,Si vous ètes un homme vous ne pouvez l'attaquer au premier tours,1 d 6,Sacré,2,10,,,FALSE,FALSE
+4,Steve,64,"Cette homme à tuer un dragon en 7min, si vous ne l'attaquer pas il ne vous regardera pas car il est en speed run",2 d 6,aucun,4,100,A revoir,,FALSE,FALSE
+0,Dragon,20,"Si vous ne vous ètes pas battu avec Steve avant de tombé sur le dragon, le dragon sera mort par lui même",,,2,50,A revoir,,FALSE,FALSE
+0,Wendigo,10,Un canibale très maigre qui ne peut pas s'arrête de se nourrir,1 d 3,,1,10,OK,,FALSE,FALSE
+0,Caïn,15,"Un vampire diurne, si vous saignez il a un bonus de +2 dans ses dégats",1 d 6  (+2 si vous saignez),Pieux,2,20,OK,,FALSE,FALSE
+1,Renard Stellaire,4,Sa vitesse est sa force,1 point de dégats,glace,1,10,OK,,FALSE,FALSE
+0,L'arbre maudit,6,Robuste mais lent,1 d 3,Feu,1,10,OK,,FALSE,FALSE
+"1, 0",Une cuillère qui plie des gens,2,A des pouvoir psychique mais inutilisable si vous n'ètes pas humain,vous perdez,ne pas etre humain,1,10,A revoir,Je crois que le nom est incomplet,FALSE,FALSE
+0,Araignée Géante,8,Cette monstruosité vous fixee et vous bloque ,1d 3 et 1dégat par tours (poison),force brute,1,10,OK,,FALSE,FALSE
+0,Le grand méchant Lou,20,insensible aux dégats type air,2d3,plante (terre) ,2,30,,,FALSE,FALSE
+4,Doppelganger,votre vie,c'est vous même,vos dégats -2,votre faiblesse,4,100,OK,,FALSE,FALSE
+3,Sköll et Hati,5 et 5 ,Des loups majestueux leurs tristesses et leurs joie sont leurs forces car par une nuit d'éclipse vous ètes de trop,1d6 chacun,force brute,2,50,OK,,FALSE,FALSE
+"0, 3",Moine déchu,8,Un moine qui a regnié ses principes et se bat avec des armes,2 d 3,classe moine,1,20,OK,,FALSE,FALSE
+"0, 1",Prof ennuyant,2,"En cas de défaite, parle tellement vous endort pendant 2 tours",1 d 3,,1,10,OK,,FALSE,FALSE
+"0, 3",Croque mitaine,10,Vous perdez vos mitaines en cas de défaite,2d3,,1,20,,,FALSE,FALSE
+"0, 2",Le boucher,7,Il est pas bon mon saucisson ? Si vous êtes vegan gagne +2 en dégats,1 d 6,,1,20,OK,,FALSE,FALSE
+4,Belzebuth,50,Oooui je suis Belzebuth ! ,1d6,,4,100,N/A,,FALSE,FALSE
+0,Salamandre de cire,2,"Une erreur de la nature, ne sert à rien",1 de dégat,Feu,0,5,OK,,FALSE,FALSE
+0,Chat Potter,5,Un gato peleando con una espada pequeña.,1 d 3,Eau,1,10,OK,,FALSE,FALSE
+0,Le rondouillar,8,En cas de défaite il vous vole votre consommable qui vous donne le plus de bonus,1d6,,1,20,OK,,FALSE,FALSE
+0,Ti nez zau russe,10,Un t rex trizo,1 d 3,,2,20,OK,,FALSE,FALSE
+0,Slime,2,"Pas très fort, juste il faut l'ignorer",pas de dégats,,1,10,OK,,FALSE,FALSE
+"0, 1",Harpie,5,Grosse pute avec des plumes (Sofiane),1 d6,,1,10,OK,,FALSE,FALSE
+0,Hippogriffe,15,La chimère la plus connu elle essaie de vous lacéré avec son bec et ses griffes,1d3 1d6,,2,30,OK,,FALSE,FALSE
+"0, 1",Carcolh,5,Un escargot monstrueux lent mais douloureux n'attaque pas au premier tours,1d20,,1,10,OK,,FALSE,FALSE
+0,Grenouille Humaine,7,"Vous fixe avec envi, mince il vous prend en chasse",1d6,,1,10,OK,,FALSE,FALSE
+"4, 3",Minotaure,15,Si vous perdez vous ne pouvez pas jouer pendant 2 tours car vous etes perdu dans le labirynthe,1d6 1d3,,2,50,OK,,FALSE,FALSE
+"4, 3, 2",Croqueuse de diamant,20,Elle vous prend la moitié de votre argent en cas de défaite,2d3,Vous êtes pauvre ou avez une femme,2,50,OK,,FALSE,FALSE
+"2, 3",Marchand de sable ,15,"Si vous avez du sable, vous avez le choix de combattre ou non ",2d3,,2,20,OK,,FALSE,FALSE
+0,Piou-Piou,2,Gros poussin ,1d3,,1,10,OK,,FALSE,FALSE
+0,Méduses,6,"Vous plongez mais n'avez pas vu que vous sautiez dans un banc de méduse. Provoque ""surprise"", elle attaquent en 1er. Insensible au sort d'eau et de foudre",1d6,,1,20,OK,,FALSE,FALSE
+4,Yeti,50,Insensible au sort d'eau,1d6,Feu,4,100,OK,,FALSE,FALSE
+0,Farfadet,30,"En cas de victoire, il vous vole tout votre butin, en cas de victoire vous pouvez jeter 1d3 pour voir combien de trésor vous pouvez obtenir, puis, vous jeter des dés pour découvrir les objects parmi les équipement",,,,,A revoir,,FALSE,FALSE
+0,Automate,10,Degat +1 pour l'automate si vous maitrisez un score de foude,2 par tour,,1,10,A revoir,,FALSE,FALSE
+0,Oie géante,10,"En cas de victoire, vous obtenez un oeuf doré",2 par tour,,1,10,OK,,FALSE,FALSE
+0,Les frères Grimm,12,Invoque un monstre supplémentaire au hasard (les gains sont ajoutés ,1d6,,2,50,OK,,FALSE,FALSE
+"0, 4",Phénix,20,"Oiseau ardent , si vous gagné vous avez une chance sur 6 de récupéré une de ses plumes (vous décidez du nombre avant le lancer)",2d6,eau,2,0,OK,,FALSE,FALSE
+0,Skin-walker,point de vie de ton compagnon animal ou 10,Prend l'apparence de ton compagnon animal fais attention  de pas te tromper,1d3,,1,15,OK,,FALSE,FALSE
+0,Horde de zombie,10,insensible à tout sauf au feu,1d3,feu,1,0,,,FALSE,FALSE
+0,Fauchese,15,elle est là pour vous,2d3,,2,100,OK,,FALSE,FALSE
+0,Feu follet,1,Vous avez le choix de le suivre vous avez une chance sur deux de tombé sur un trésor ou dans un piège,,,0,0,OK,,FALSE,FALSE
+0,Eunuque en rute,10,"ayant perdu son attirial, il a la rage sur tout le monde +2 sur les femmes +4 pour le hommes",1d3 1d6,,2,20,OK,,FALSE,FALSE
+0,Le dahu,5,une simple chèvre qui grimpe des montagnes,1d3,,1,0,OK,,FALSE,FALSE
+"3, 4",Cerbère,20,Et oui on nous a menti hercule ne la pas battu,3d3,force brute,2,50,OK,,FALSE,FALSE
+4,Airavata,40,"Un éléphant à trois, son mettre l'a abandonné",1d6 1d3,immobilisation,3,100,OK,,FALSE,FALSE
+"0, 4",Ange,????,Une chance sur 3 qu'il soit déchu si non déchu il ne se passe rien si déchu vous devait resisté à 2 attaque de 1d20 si vous résistez,1d20,,,500,OK,,FALSE,FALSE
+"4, 3",Le Basilic,25,sssc'est sssle ssBasilicccc,2d3,force brute,2,50,OK,,FALSE,FALSE
+0,Banshee,10,Ses hurlements vous glaces le sang,1d6,bouchon d'oreille,1,20,OK,,FALSE,FALSE
+0,Béhémoth,15,,2d6,,2,0,OK,,FALSE,FALSE
+0,Cancer,10,un énorme crabe vous attaque,1d6 1d3,tranchant,1,25,OK,,FALSE,FALSE
+0,Chien noir,5,le chien du malheur,1d3,force brute,,20,OK,,FALSE,FALSE
+0,Chupacabra,15,"si quelque chose se passe de mauvais c'est surement lui, le ""CHUPACABRA""",2d3,,1,30,OK,,FALSE,FALSE
+0,Dryade,10,C'est des putes,1 plus 1d3,féministe,1,10,OK,,FALSE,FALSE
+"0, 3, 4",Ver géant,20,"Cela fait des annés que personne ne l'a vu,  insensible au sort de plante",2d3,eau,2,40,OK,,FALSE,FALSE
+"0, 3, 4",Golem,20,Ne réfléchi pas il agit,1d3 1d6,eau,2,30,OK,,FALSE,FALSE
+0,Anubis,25,"Il vous propose un marché, inflige morsure",,,,,A revoir,,FALSE,FALSE
+"0, 4",Hydre de lerne,30,Attention à ses têtes,2d6,force brute,2,50,OK,,FALSE,FALSE
+0,Lapin de Pâques,10,il en a marre de rien recevoir à pâque,1d3,feu,1,10,OK,,FALSE,FALSE
+0,Lion de némée,15,Un fauve avec une grande puissance,2d3,force brute,2,50,OK,,FALSE,FALSE
+0,Raiponse,20,"Marre d'être une princesse, vous attaque avec ses cheveux, n'attaque pas la féministe",1d6 1d3,féministe,1,500,OK,,FALSE,FALSE
+0,Gloutonie,20,"Le maître du Péché gourmandise, s'il vous bat il mange toute votre nouriture",2d3,,2,20,OK,,FALSE,FALSE
+"2, 3, 4",Wukong,30,N'attaque pas les moines,2d6,,3,200,OK,,FALSE,FALSE
+0,Sprite,5,Et oui c'est qui ce fait boire par ta daronne,1d3,,1,10,OK,,FALSE,FALSE
+0,Tarasque,20,Notre dragon français,2d3,,2,40,OK,,FALSE,FALSE
+0,Sans Visage,15,heeeuuuu  heuu euuuu,2d6,eau,2,300,OK,,FALSE,FALSE
+0,L'épouventail,10,controle les corbeaux,1d6,feu,1,10,OK,,FALSE,FALSE
+0,Dieu Cerf Benelic,0,Sa tête vaut peut-être qu'elle chose,0,,0,0,A revoir,,FALSE,FALSE
+"3, 4",TItan,50,Juste puissant,2d6,éclair,4,500,A revoir,revoir l'histoire avec le DIeu Cerf,FALSE,FALSE
+0,Un Caribou,5,"Juste un caribou, mais vous etes sur son territoire",1d3,,1,20,OK,,FALSE,FALSE
+0,L'addanc,15,"ressemblant à un dragon, à un crocodile, à un castor ou à un nain, et on dit parfois qu'il s'agit d'un démon",2d3,,2,40,OK,,FALSE,FALSE
+0,Slender man,10,vous fixe,1d12,,2,60,OK,,FALSE,FALSE
+0,Valak,20,Cette nonne va vous tuer,1d6 1d3,,2,100,OK,,FALSE,FALSE
+"0, 2",The Rock,15,caillou caillou caillou,1d6,,1,50,OK,,FALSE,FALSE
+0,Leshen,20,Un arbre vivant,2d6,feu,2,40,OK,,FALSE,FALSE
+0,Monstre mongole,1,Pire monstre,1,tout,0,1,OK,,FALSE,FALSE
+0,Canard WC,6,Il en a marre de bosser dans les wc il vous jette les pod dans la gueule,1d6 1d3,Hygiène douteuse,1,30,OK,,FALSE,FALSE
+3,Berserk,30,l'un des meilleur guerrier de sa génération,2d6,Assassin ou crop top,3,500,OK,,FALSE,FALSE
+0,Rhino Laineux,20,L'ancètre du rhino,1d6,feu,2,80,OK,,FALSE,FALSE
+0,Cyclope,10,Un peu difficile pour acheter des lunettes,2d3,les lances,2,100,OK,,FALSE,FALSE
+0,Gargouille,10,"Leur pote Casimodo a disparu, triste et en colère vous attaque",2d3,Casimodo,1,50,OK,,FALSE,FALSE
+0,The grudge,5,si vous avez le smartphone vous pouvez l'emprisoner dedans,1d6,smartphone,2,50,OK,,FALSE,FALSE
+0,Faux dieu,20,un imposteur accompagner par des illuminés,1d6 1d3,assassin,2,200,OK,,FALSE,FALSE
+0,le rat et les tortues,15,vous les avez interronpu pendant leur entrainement de karaté,1d6 2d3,Pizza,2,100,OK,,FALSE,FALSE
+"0, 4",Kraken,35,Le KRAKEEEEEEEENNNNN,2D6,Foudre,3,200,OK,,FALSE,FALSE
+0,SDF ,5,"Ne vous attaque si vous avez ""le chien de sdf""",1d100,,1,1,OK,,FALSE,FALSE
+0,Docteur de la peste,6,Fou à cause des cadavres qu'il a vu ,1d3,,1,10,OK,,FALSE,FALSE
+0,Spooky squelleton,8,Se sont des squellettes qui dansent ,1d6,Force brute,1,20,OK,,FALSE,FALSE
+0,Alien,20,"Plus rapide, plus fort enfaite meilleurs que toi",2d6,Feu,2,100,OK,,FALSE,FALSE
+0,Marionette maudite,10,Geppetto à perdu le contrôle de son fils,2d3,,1,20,OK,,FALSE,FALSE
+0,Greta thunberg,40,Insensible aux sortis de plante,2d6,"Féministe, Vegan",2,200,OK,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE
+,,,,,,,,,,FALSE,FALSE

@@ -7,7 +7,7 @@ from client_src.views.creation import CreationView
 from client_src.views.game import GameView
 
 SERVEUR_IP = '127.0.0.1' 
-PORT = 5555
+PORT = 55555
 
 class MainApplication(tk.Tk):
     def __init__(self):
