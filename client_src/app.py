@@ -1,3 +1,4 @@
+# client_src/app.py
 import tkinter as tk
 import socket
 import threading
@@ -7,7 +8,7 @@ from client_src.views.creation import CreationView
 from client_src.views.game import GameView
 
 SERVEUR_IP = '127.0.0.1' 
-PORT = 55555
+PORT = 55555  # Aligné sur le serveur à 5 chiffres
 
 class MainApplication(tk.Tk):
     def __init__(self):
@@ -65,12 +66,10 @@ class MainApplication(tk.Tk):
             self.msg_queue.put("ORDRE:ERREUR_CONNEXION")
 
     def valider_personnage(self, pseudo, race, classe, pv, energie, pieces):
-        """Sauvegarde les choix locaux, initialise l'UI de jeu et prévient le serveur"""
         self.mon_pseudo = pseudo
         self.ma_race = race
         self.ma_classe = classe
         
-        # CORRECTION : On injecte directement TES statistiques réelles dans le bandeau de jeu
         self.views["GameView"].configurer_nom_joueur(pseudo, race, classe)
         self.views["GameView"].mettre_a_jour_stats(pv, energie, pieces)
         
@@ -80,12 +79,6 @@ class MainApplication(tk.Tk):
                 self.client_socket.sendall(paquet.encode('utf-8'))
             except: pass
 
-    def envoyer_choix_action(self, bouton_id):
-        if self.client_socket:
-            try:
-                self.client_socket.sendall(str(bouton_id).encode('utf-8'))
-            except: pass
-
     def verifier_messages_reseau(self):
         while not self.msg_queue.empty():
             paquet_brut = self.msg_queue.get()
@@ -93,15 +86,36 @@ class MainApplication(tk.Tk):
             for ligne in paquet_brut.split('\n'):
                 if not ligne.strip(): continue
                 
-                # CORRECTION : Si le serveur envoie une mise à jour de stats (ex: STATS:PV=90,EN=100,PI=120)
+                # Mise à jour des statistiques du joueur
                 if ligne.startswith("STATS:"):
                     try:
                         contenu = ligne.replace("STATS:", "")
                         parts = dict(item.split("=") for item in contenu.split(","))
                         self.views["GameView"].mettre_a_jour_stats(parts["PV"], parts["EN"], parts["PI"])
-                    except:
-                        pass
+                    except: pass
                 
+                # Réception d'une carte Trahison face DECOUVERTE (pour le Traître)
+                elif ligne.startswith("TRAHISON:DECOUVERTE|"):
+                    try:
+                        parts = ligne.split("|")
+                        self.views["GameView"].afficher_carte_trahison(
+                            nom=parts[1], effet=parts[2], cout=parts[3], fichier_img=parts[4], est_le_traitre=True
+                        )
+                    except: pass
+                    
+                # Réception d'une carte Trahison face CACHÉE (pour la Victime)
+                elif ligne.startswith("TRAHISON:CACHEE|"):
+                    try:
+                        parts = ligne.split("|")
+                        self.views["GameView"].afficher_carte_trahison(
+                            nom=parts[1], effet="", cout="", fichier_img="", est_le_traitre=False
+                        )
+                    except: pass
+
+                # Fin du dilemme : on nettoie la zone centrale
+                elif ligne.startswith("TRAHISON:NETTOYER"):
+                    self.views["GameView"].nettoyer_zone_centrale()
+
                 elif "En attente du second aventurier" in ligne:
                     self.views["MenuView"].modifier_statut("Connecté ! En attente du J2...", couleur_fond="#f39c12")
                     
@@ -116,8 +130,11 @@ class MainApplication(tk.Tk):
                 elif "ERREUR_CONNEXION" in ligne:
                     self.views["MenuView"].modifier_statut("Serveur introuvable", couleur_fond="#ff5e57")
                     
+                elif ligne.startswith("HISTOIRE:"):
+                    # On affiche le texte narratif pur dans la colonne de gauche
+                    self.views["GameView"].ajouter_narration(ligne.replace("HISTOIRE:", ""))
+                    
                 else:
-                    # Évite d'afficher les lignes de commande pures dans le journal de narration
                     self.views["GameView"].ajouter_narration(ligne)
         
         self.after(100, self.verifier_messages_reseau)

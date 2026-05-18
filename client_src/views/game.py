@@ -1,3 +1,4 @@
+# client_src/views/game.py
 import tkinter as tk
 import os
 from PIL import Image, ImageTk
@@ -13,6 +14,7 @@ class GameView(tk.Frame):
         self.max_en = 150
         self.stats_completes = {}
         self.swipe_en_cours = False
+        self.lbl_carte_centrale = None # Ajout pour tracker l'image de la carte en cours
         
         # =====================================================================
         # 1. BANDEAU SUPÉRIEUR : INFO JOUEUR
@@ -105,13 +107,10 @@ class GameView(tk.Frame):
         self.card_display_area.pack(fill=tk.BOTH, expand=True)
         
         # --- LOGIQUE DE LA CARTE DE BIENVENUE INSTANTANÉE ---
-        # On crée le callback qui affichera les boutons d'actions REELS du serveur APRES le swipe
         def action_apres_swipe():
             self.lbl_action_title.pack(anchor="n", pady=(10, 15))
             self.buttons_container.pack(fill=tk.X, anchor="n")
-            # Optionnel : Tu pourrais ici envoyer un message au serveur pour lui dire que le joueur est prêt !
         
-        # On instancie la carte de bienvenue et on la pack au centre
         self.welcome_card = WelcomeCard(
             parent=self.card_display_area, 
             controller=self.controller, 
@@ -149,30 +148,21 @@ class GameView(tk.Frame):
         self.swipe_en_cours = True
         
         def anim_loop():
-            # On récupère la position actuelle du calque sur le Canvas
             current_coords = self.welcome_canvas.coords(self.card_item)
-            
-            # Si le centre de la carte n'est pas encore sorti loin à droite de l'écran (ex: x > 600)
             if current_coords and current_coords[0] < 600:
-                # On pousse de 30px vers la droite, et on monte de 4px pour l'effet de rotation/lancé
                 self.welcome_canvas.move(self.card_item, 30, -4)
                 if hasattr(self, 'text_item'): 
                     self.welcome_canvas.move(self.text_item, 30, -4)
-                
-                # On redemande un rafraîchissement dans 12 millisecondes (Ultra fluide)
                 self.after(12, anim_loop)
             else:
-                # L'animation est finie, on nettoie le Canvas de bienvenue
                 self.welcome_canvas.pack_forget()
-                
-                # On révèle MAGIQUEMENT le panneau des vrais choix stratégiques du MJ
                 self.lbl_action_title.pack(anchor="n", pady=(10, 15))
                 self.buttons_container.pack(fill=tk.X, anchor="n")
 
         anim_loop()
 
     # =====================================================================
-    # MÉTHODES DE LOGIQUE RECOPIÉES (Zéro régression)
+    # MÉTHODES DE LOGIQUE
     # =====================================================================
     def afficher_infobulle(self, event):
         if not self.stats_completes: return
@@ -234,3 +224,80 @@ class GameView(tk.Frame):
         for widget in self.buttons_container.winfo_children(): widget.config(state=tk.DISABLED)
         self.lbl_action_title.config(text="TRANSMISSION...", fg="#00e5ff")
         self.controller.envoyer_choix_action(bouton_id)
+
+    # =====================================================================
+    # NOUVELLES MÉTHODES : GESTION DES TRAHISONS
+    # =====================================================================
+    def nettoyer_zone_centrale(self):
+        """Nettoie l'image et les boutons sans casser ta structure de base."""
+        self.lbl_action_title.config(text="EN ATTENTE DU MJ...", fg="#ffffff")
+        
+        # On vide les boutons existants
+        for widget in self.buttons_container.winfo_children():
+            widget.destroy()
+            
+        # On supprime l'image de la carte si elle est affichée
+        if self.lbl_carte_centrale is not None:
+            self.lbl_carte_centrale.destroy()
+            self.lbl_carte_centrale = None
+            
+        # On s'assure que les conteneurs sont bien affichés
+        self.lbl_action_title.pack(anchor="n", pady=(10, 15))
+        self.buttons_container.pack(fill=tk.X, anchor="n")
+
+    def afficher_carte_trahison(self, nom, effet, cout, fichier_img, est_le_traitre=True):
+        self.nettoyer_zone_centrale()
+        
+        # Sécurité : on cache la carte de bienvenue si elle traînait encore
+        if hasattr(self, 'welcome_card') and self.welcome_card.winfo_ismapped():
+            self.welcome_card.pack_forget()
+
+        if est_le_traitre:
+            self.lbl_action_title.config(text="🔥 TRAHIR VOTRE ALLIÉ ?", fg="#ff5e57")
+            chemin_img = os.path.join("client_src", "rsc", "img", "trahisons", fichier_img)
+        else:
+            self.lbl_action_title.config(text="🔮 SUSPENSE... UN COUP BAS SE PRÉPARE !", fg="#f39c12")
+            chemin_img = os.path.join("client_src", "rsc", "img", "card", "dos-carte.png")
+
+        # Chargement et affichage de la carte au centre (300x500 pixels)
+        try:
+            img = Image.open(chemin_img).resize((300, 500), Image.Resampling.LANCZOS)
+            self.tk_img_courante = ImageTk.PhotoImage(img)
+            self.lbl_carte_centrale = tk.Label(self.card_display_area, image=self.tk_img_courante, bg="#22252a")
+            self.lbl_carte_centrale.pack(before=self.buttons_container, pady=10)
+        except Exception as e:
+            # Texte de secours si l'image png n'est pas encore créée
+            txt_secu = f"[{nom.upper()}]\n\n{effet}\n\nCoût : {cout}" if est_le_traitre else "[CARTE CACHÉE]\n\nL'autre joueur prend une décision..."
+            self.lbl_carte_centrale = tk.Label(self.card_display_area, text=txt_secu, font=("Segoe UI", 12, "bold"),
+                               bg="#2d3139", fg="#ffffff", width=30, height=15, relief=tk.FLAT)
+            self.lbl_carte_centrale.pack(before=self.buttons_container, pady=10)
+
+        # Génération des boutons UNIQUEMENT pour le joueur qui peut trahir
+        if est_le_traitre:
+            btn_activer = tk.Button(
+                self.buttons_container, text=f"⚡ Activer l'effet ({cout})", font=("Segoe UI", 11, "bold"),
+                bg="#ff5e57", fg="#ffffff", activebackground="#ff3f34", activeforeground="#ffffff",
+                relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=lambda: self.decision_trahison("ACTIVER", nom)
+            )
+            # Affichage reprenant ton style vertical
+            btn_activer.pack(fill=tk.X, pady=5)
+
+            btn_ignorer = tk.Button(
+                self.buttons_container, text="🚫 Ignorer la carte", font=("Segoe UI", 11),
+                bg="#2d3139", fg="#a0a5b0", activebackground="#3a3f47", activeforeground="#ffffff",
+                relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=lambda: self.decision_trahison("IGNORER", nom)
+            )
+            btn_ignorer.pack(fill=tk.X, pady=5)
+
+    def decision_trahison(self, choix, nom_carte):
+        # On verrouille les boutons le temps que le serveur réponde
+        for widget in self.buttons_container.winfo_children():
+            widget.config(state=tk.DISABLED)
+        self.lbl_action_title.config(text="TRANSMISSION DU CHOIX AU MJ...", fg="#00e5ff")
+        
+        # Envoi au serveur
+        if self.controller.client_socket:
+            try:
+                paquet = f"TRAHISON:CHOIX|{choix}|{nom_carte}\n"
+                self.controller.client_socket.sendall(paquet.encode('utf-8'))
+            except: pass
