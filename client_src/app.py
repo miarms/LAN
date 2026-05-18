@@ -3,8 +3,9 @@ import socket
 import threading
 import queue
 from client_src.views.menu import MenuView
+from client_src.views.creation import CreationView
+from client_src.views.game import GameView
 
-# Mets l'IP de ton serveur ici (127.0.0.1 pour tester sur le même PC)
 SERVEUR_IP = '127.0.0.1' 
 PORT = 5555
 
@@ -12,7 +13,6 @@ class MainApplication(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        # Configuration de la fenêtre
         self.title("Le Donjon de la Discorde - Édition LAN")
         self.geometry("1024x768") 
         self.minsize(800, 600)    
@@ -23,18 +23,25 @@ class MainApplication(tk.Tk):
         
         self.views = {}
         self.client_socket = None
-        self.msg_queue = queue.Queue() # File d'attente pour recevoir les messages du réseau
+        self.msg_queue = queue.Queue()
+        
+        self.mon_pseudo = ""
+        self.ma_race = ""
+        self.ma_classe = ""
         
         self.charger_vues()
         self.afficher_vue("MenuView")
-        
-        # On lance une vérification de la boîte de réception réseau toutes les 100ms
         self.verifier_messages_reseau()
 
     def charger_vues(self):
-        vue_menu = MenuView(parent=self.container, controller=self)
-        self.views["MenuView"] = vue_menu
-        vue_menu.grid(row=0, column=0, sticky="nsew")
+        self.views["MenuView"] = MenuView(parent=self.container, controller=self)
+        self.views["MenuView"].grid(row=0, column=0, sticky="nsew")
+        
+        self.views["CreationView"] = CreationView(parent=self.container, controller=self)
+        self.views["CreationView"].grid(row=0, column=0, sticky="nsew")
+        
+        self.views["GameView"] = GameView(parent=self.container, controller=self)
+        self.views["GameView"].grid(row=0, column=0, sticky="nsew")
         
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
@@ -43,42 +50,74 @@ class MainApplication(tk.Tk):
         vue = self.views[nom_vue]
         vue.tkraise()
 
-    # --- BRIQUE RÉSEAU ---
     def connecter_au_serveur(self):
-        """Démarre le thread réseau en tâche de fond pour ne pas bloquer l'affichage graphique"""
         threading.Thread(target=self._ecoute_reseau_thread, daemon=True).start()
 
     def _ecoute_reseau_thread(self):
-        """Ce code tourne en arrière-plan et écoute le serveur"""
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((SERVEUR_IP, PORT))
-            
             while True:
-                donnees = self.client_socket.recv(1024).decode('utf-8')
-                if not donnees:
-                    break
-                # On dépose le message brut reçu du serveur dans notre file d'attente
+                donnees = self.client_socket.recv(4096).decode('utf-8')
+                if not donnees: break
                 self.msg_queue.put(donnees)
-        except Exception as e:
-            self.msg_queue.put(f"ORDRE:ERREUR_CONNEXION")
+        except:
+            self.msg_queue.put("ORDRE:ERREUR_CONNEXION")
+
+    def valider_personnage(self, pseudo, race, classe, pv, energie, pieces):
+        """Sauvegarde les choix locaux, initialise l'UI de jeu et prévient le serveur"""
+        self.mon_pseudo = pseudo
+        self.ma_race = race
+        self.ma_classe = classe
+        
+        # CORRECTION : On injecte directement TES statistiques réelles dans le bandeau de jeu
+        self.views["GameView"].configurer_nom_joueur(pseudo, race, classe)
+        self.views["GameView"].mettre_a_jour_stats(pv, energie, pieces)
+        
+        if self.client_socket:
+            try:
+                paquet = f"CREATION:{pseudo}|{race}|{classe}\n"
+                self.client_socket.sendall(paquet.encode('utf-8'))
+            except: pass
+
+    def envoyer_choix_action(self, bouton_id):
+        if self.client_socket:
+            try:
+                self.client_socket.sendall(str(bouton_id).encode('utf-8'))
+            except: pass
 
     def verifier_messages_reseau(self):
-        """Vérifie la file d'attente et applique les changements graphiques en direct"""
         while not self.msg_queue.empty():
-            message_serveur = self.msg_queue.get()
+            paquet_brut = self.msg_queue.get()
             
-            # ANALYSE DU TEXTE DU SERVEUR
-            if "En attente du second aventurier" in message_serveur:
-                # Le joueur 1 est connecté mais attend le J2
-                self.views["MenuView"].modifier_statut("Connecté ! En attente du J2...", couleur_fond="#f39c12")
+            for ligne in paquet_brut.split('\n'):
+                if not ligne.strip(): continue
                 
-            elif "Les deux joueurs sont presents" in message_serveur:
-                # Le serveur confirme que tout le monde est là ! On passe au vert clair
-                self.views["MenuView"].modifier_statut("Joueur 2 trouvé !", couleur_fond="#27ae60")
+                # CORRECTION : Si le serveur envoie une mise à jour de stats (ex: STATS:PV=90,EN=100,PI=120)
+                if ligne.startswith("STATS:"):
+                    try:
+                        contenu = ligne.replace("STATS:", "")
+                        parts = dict(item.split("=") for item in contenu.split(","))
+                        self.views["GameView"].mettre_a_jour_stats(parts["PV"], parts["EN"], parts["PI"])
+                    except:
+                        pass
                 
-            elif "ERREUR_CONNEXION" in message_serveur:
-                self.views["MenuView"].modifier_statut("Serveur éteint ou introuvable", couleur_fond="#ff5e57")
+                elif "En attente du second aventurier" in ligne:
+                    self.views["MenuView"].modifier_statut("Connecté ! En attente du J2...", couleur_fond="#f39c12")
+                    
+                elif "Les deux joueurs sont presents" in ligne:
+                    self.views["MenuView"].modifier_statut("Joueur 2 trouvé !", couleur_fond="#27ae60")
+                    self.after(1500, lambda: self.afficher_vue("CreationView"))
+                    
+                elif "Fiches de personnages synchronisees" in ligne:
+                    self.afficher_vue("GameView")
+                    self.views["GameView"].ajouter_narration("=== Bienvenue dans le Donjon de la Discorde ===")
+                    
+                elif "ERREUR_CONNEXION" in ligne:
+                    self.views["MenuView"].modifier_statut("Serveur introuvable", couleur_fond="#ff5e57")
+                    
+                else:
+                    # Évite d'afficher les lignes de commande pures dans le journal de narration
+                    self.views["GameView"].ajouter_narration(ligne)
         
-        # On redemande à Tkinter de revérifier dans 100 millisecondes
         self.after(100, self.verifier_messages_reseau)
