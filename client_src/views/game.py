@@ -254,7 +254,7 @@ class GameView(tk.Frame):
 
         if est_le_traitre:
             self.lbl_action_title.config(text="🔥 TRAHIR VOTRE ALLIÉ ?", fg="#ff5e57")
-            chemin_img = os.path.join("client_src", "rsc", "img", "trahisons", fichier_img)
+            chemin_img = os.path.join("client_src", "rsc", "img", "card", "trahisons", fichier_img)
         else:
             self.lbl_action_title.config(text="🔮 SUSPENSE... UN COUP BAS SE PRÉPARE !", fg="#f39c12")
             chemin_img = os.path.join("client_src", "rsc", "img", "card", "dos-carte.png")

@@ -136,14 +136,34 @@ def gerer_client(client_socket, client_address):
 def demarrer_serveur():
     serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # 1. On empêche le serveur de faire un blocage infini (1 seconde max)
+    serveur.settimeout(1.0) 
+    
     try:
         serveur.bind((HOST, PORT))
         serveur.listen(2)
         print(f"[SERVEUR] MJ en ligne sur le port {PORT}...")
+        
         while True:
-            client_sock, client_addr = serveur.accept()
-            threading.Thread(target=gerer_client, args=(client_sock, client_addr), daemon=True).start()
-    except Exception as e: print(f"[ERREUR] : {e}")
+            try:
+                client_sock, client_addr = serveur.accept()
+                threading.Thread(target=gerer_client, args=(client_sock, client_addr), daemon=True).start()
+            except socket.timeout:
+                # 2. Le timeout s'active chaque seconde. 
+                # Le code passe ici silencieusement et repart dans le 'while True', 
+                # ce qui laisse la fenêtre ouverte pour capter ton Ctrl+C !
+                continue
+                
+    except KeyboardInterrupt:
+        # 3. Interception propre de ton Ctrl+C
+        print("\n[SERVEUR] Arrêt forcé par le MJ (Ctrl+C). Coupure des connexions...")
+    except Exception as e: 
+        print(f"[ERREUR] : {e}")
+    finally:
+        # 4. On ferme proprement le port réseau pour éviter les erreurs "Address already in use" au prochain lancement
+        serveur.close()
+        print("[SERVEUR] Hors ligne.")
 
 if __name__ == "__main__":
     demarrer_serveur()
