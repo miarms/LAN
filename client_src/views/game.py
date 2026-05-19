@@ -4,6 +4,7 @@ import os
 from PIL import Image, ImageTk
 from client_src.views.dice import DiceModule
 from client_src.views.card import WelcomeCard
+from client_src.views.inventory import InventoryModule
 
 class GameView(tk.Frame):
     def __init__(self, parent, controller):
@@ -135,10 +136,12 @@ class GameView(tk.Frame):
         self.inventory_panel = tk.Frame(self.right_column, bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
         self.inventory_panel.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
-        tk.Label(self.inventory_panel, text="MENU POUR INVENTAIRE", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
-        self.lbl_inv_placeholder = tk.Label(self.inventory_panel, text="🎒 [Inventaire Vide]", font=("Segoe UI", 11, "italic"), bg="#22252a", fg="#86868B")
-        self.lbl_inv_placeholder.pack(expand=True)
-
+        tk.Label(self.inventory_panel, text="🎒 INVENTAIRE", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 10))
+        
+        # ◄ ON INTÈGRE LE NOUVEAU MODULE ICI ! ►
+        self.inventory_module = InventoryModule(parent=self.inventory_panel, controller=self.controller)
+        self.inventory_module.pack(fill=tk.BOTH, expand=True)
+        
     # =====================================================================
     # INTERACTION : ANIMATION DE SWIPE TINDER
     # =====================================================================
