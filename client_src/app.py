@@ -7,7 +7,7 @@ from client_src.views.menu import MenuView
 from client_src.views.creation import CreationView
 from client_src.views.game import GameView
 
-SERVEUR_IP = '127.0.0.1' 
+SERVEUR_IP = '192.168.1.6' 
 PORT = 55555  # Aligné sur le serveur à 5 chiffres
 
 class MainApplication(tk.Tk):
