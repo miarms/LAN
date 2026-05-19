@@ -65,8 +65,9 @@ class MainApplication(tk.Tk):
         except:
             self.msg_queue.put("ORDRE:ERREUR_CONNEXION")
 
-    def valider_personnage(self, pseudo, race, classe, pv, energie, pieces):
+    def valider_personnage(self, pseudo, genre, race, classe, pv, energie, pieces):
         self.mon_pseudo = pseudo
+        self.mon_genre = genre # On sauvegarde le genre localement
         self.ma_race = race
         self.ma_classe = classe
         
@@ -75,8 +76,8 @@ class MainApplication(tk.Tk):
         
         if self.client_socket:
             try:
-                # CORRECTION : On envoie les vraies stats au serveur !
-                paquet = f"CREATION:{pseudo}|{race}|{classe}|{pv}|{energie}|{pieces}\n"
+                # On glisse le {genre} dans le paquet réseau !
+                paquet = f"CREATION:{pseudo}|{genre}|{race}|{classe}|{pv}|{energie}|{pieces}\n"
                 self.client_socket.sendall(paquet.encode('utf-8'))
             except: pass
 

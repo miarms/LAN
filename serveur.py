@@ -79,14 +79,16 @@ def gerer_client(client_socket, client_address):
             if requete.startswith("CREATION:"):
                 with verrou_fiches:
                     parts = requete.split("|")
-                    # Si on reçoit bien les stats du client
-                    if len(parts) >= 6:
+                    # On s'assure de lire les 7 parties (Pseudo, Genre, Race, Classe, PV, EN, PI)
+                    if len(parts) >= 7:
                         idx = sockets_joueurs.index(client_socket)
-                        stats_joueurs[idx]["PV"] = int(parts[3])
-                        stats_joueurs[idx]["EN"] = int(parts[4])
-                        stats_joueurs[idx]["PI"] = int(parts[5])
+                        # On décale les index de +1 à cause du Genre !
+                        stats_joueurs[idx]["PV"] = int(parts[4])
+                        stats_joueurs[idx]["EN"] = int(parts[5])
+                        stats_joueurs[idx]["PI"] = int(parts[6])
                         
                     fiches_recues += 1
+                    # Le jeu démarre UNIQUEMENT quand les DEUX fiches sont reçues
                     if fiches_recues == 2:
                         diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
             

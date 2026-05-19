@@ -38,15 +38,12 @@ CLASSES = {
 
 class CreationView(tk.Frame):
     def __init__(self, parent, controller):
-        #1. ON INITIALISE LE MOTEUR TKINTER D'ABORD (Obligatoire)
         super().__init__(parent, bg="#1a1c20")
         self.controller = controller
         
-        # 2. ENTIÈREMENT SÉCURISÉ : LE BLOC DE STYLE SOMBRE
         style = ttk.Style()
         style.theme_use('clam')
 
-        # Configuration de la boîte fermée
         style.configure("TCombobox", 
                         fieldbackground="#2d3139", 
                         background="#2d3139",      
@@ -54,25 +51,21 @@ class CreationView(tk.Frame):
                         bordercolor="#1a1c20",     
                         arrowcolor="#ffffff")     
 
-        # Forcer le fond sombre même quand le champ est actif
         style.map("TCombobox", fieldbackground=[("readonly", "#2d3139")])
 
-        # Configuration de la liste déroulante (Le pop-up)
         self.option_add('*TCombobox*Listbox.background', '#2d3139')
         self.option_add('*TCombobox*Listbox.foreground', '#ffffff')
         self.option_add('*TCombobox*Listbox.selectBackground', '#3a3f47')
         self.option_add('*TCombobox*Listbox.selectForeground', '#ffffff')
         
-        # 3. LE RESTE DE TON CODE (Titre, colonnes, etc.)
         titre = tk.Label(self, text="CRÉATION DE L'AVENTURIER", font=("Segoe UI", 24, "bold"), bg="#1a1c20", fg="#ffffff")
         titre.pack(pady=(40, 30))
 
-        # Conteneur Principal
         self.main_container = tk.Frame(self, bg="#1a1c20")
         self.main_container.pack(fill=tk.BOTH, expand=True, padx=50, pady=10)
         
         # =====================================================================
-        # COLONNE GAUCHE : FORMULAIRE (Sur fond Gris Sombre)
+        # COLONNE GAUCHE : FORMULAIRE
         # =====================================================================
         self.left_card = tk.Frame(self.main_container, bg="#22252a", padx=30, pady=30)
         self.left_card.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 15))
@@ -80,27 +73,32 @@ class CreationView(tk.Frame):
         # 1. Pseudo
         tk.Label(self.left_card, text="NOM DE L'AVENTURIER", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
         self.entry_pseudo = tk.Entry(self.left_card, font=("Segoe UI", 12), bg="#2d3139", fg="#ffffff", insertbackground="white", bd=0, relief=tk.FLAT)
-        self.entry_pseudo.pack(fill=tk.X, ipady=10, pady=(0, 20))
+        self.entry_pseudo.pack(fill=tk.X, ipady=10, pady=(0, 15))
+
+        # 2. Genre (NOUVEAUTÉ)
+        tk.Label(self.left_card, text="GENRE", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
+        self.combo_genre = ttk.Combobox(self.left_card, values=["Homme", "Femme", "Autre"], state="readonly", font=("Segoe UI", 11))
+        self.combo_genre.pack(fill=tk.X, ipady=4, pady=(0, 15))
         
-        # 2. Race
+        # 3. Race
         tk.Label(self.left_card, text="RACE D'ORIGINE", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
         self.combo_race = ttk.Combobox(self.left_card, values=list(RACES.keys()), state="readonly", font=("Segoe UI", 11))
         self.combo_race.pack(fill=tk.X, ipady=4, pady=(0, 5))
         self.combo_race.bind("<<ComboboxSelected>>", self.declencher_mise_a_jour)
         
         self.lbl_race_desc = tk.Label(self.left_card, text="Choisissez une race...", font=("Segoe UI", 10), bg="#22252a", fg="#86868B", wraplength=350, justify="left")
-        self.lbl_race_desc.pack(anchor="w", pady=(0, 20))
+        self.lbl_race_desc.pack(anchor="w", pady=(0, 15))
         
-        # 3. Classe
+        # 4. Classe
         tk.Label(self.left_card, text="CLASSE SOCIALE", font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 5))
         self.combo_classe = ttk.Combobox(self.left_card, values=list(CLASSES.keys()), state="readonly", font=("Segoe UI", 11))
         self.combo_classe.pack(fill=tk.X, ipady=4, pady=(0, 5))
         self.combo_classe.bind("<<ComboboxSelected>>", self.declencher_mise_a_jour)
         
         self.lbl_classe_bonus = tk.Label(self.left_card, text="Choisissez une classe...", font=("Segoe UI", 10, "italic"), bg="#22252a", fg="#86868B", wraplength=350, justify="left")
-        self.lbl_classe_bonus.pack(anchor="w", pady=(0, 30))
+        self.lbl_classe_bonus.pack(anchor="w", pady=(0, 25))
         
-        # 4. Bouton de Validation (Style Cyan Néon)
+        # Bouton de Validation
         self.btn_valider = tk.Button(
             self.left_card, text="CONFIRMER LE PROFIL", font=("Segoe UI", 12, "bold"),
             bg="#00e5ff", fg="#1a1c20", activebackground="#00b8cc", activeforeground="#1a1c20",
@@ -110,7 +108,7 @@ class CreationView(tk.Frame):
         self.btn_valider.pack(fill=tk.X)
 
         # =====================================================================
-        # COLONNE DROITE : STATISTIQUES (Style Specs Techniques Dark)
+        # COLONNE DROITE : STATISTIQUES
         # =====================================================================
         self.right_card = tk.Frame(self.main_container, bg="#22252a", padx=35, pady=30)
         self.right_card.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(15, 0))
@@ -132,7 +130,6 @@ class CreationView(tk.Frame):
             
             self.stat_labels[carac] = lbl_val
             
-            # Ligne de séparation subtile
             if idx < len(liste_caracs) - 1:
                 sep = tk.Frame(self.grid_frame, height=1, bg="#2d3139")
                 sep.grid(row=idx, column=0, columnspan=2, sticky="ew", pady=(22, 0))
@@ -163,14 +160,17 @@ class CreationView(tk.Frame):
 
     def envoyer_creation_serveur(self):
         pseudo = self.entry_pseudo.get().strip()
+        genre = self.combo_genre.get() # <--- On récupère le genre
         race = self.combo_race.get()
         classe = self.combo_classe.get()
-        if not pseudo or not race or not classe: return
+        
+        # On vérifie que TOUS les champs sont remplis
+        if not pseudo or not genre or not race or not classe: return
             
-        # Calcul des stats pour initialisation immédiate de l'UI Game
         pv = RACES[race]["PV"] + CLASSES[classe]["PV"]
         en = RACES[race]["ENERGIE"] + CLASSES[classe]["ENERGIE"]
         pi = RACES[race]["PIECES"] + CLASSES[classe]["PIECES"]
         
-        self.controller.valider_personnage(pseudo, race, classe, pv, en, pi)
+        # On ajoute le genre dans l'envoi au controller
+        self.controller.valider_personnage(pseudo, genre, race, classe, pv, en, pi)
         self.btn_valider.config(state=tk.DISABLED, text="TRANSMISSION MJ...", bg="#2d3139", fg="#86868B")
