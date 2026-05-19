@@ -4,7 +4,7 @@ import threading
 import os
 from managers.trahison_manager import TrahisonManager
 
-HOST = '0.0.0.0'
+HOST = '192.168.1.6'
 PORT = 55555
 
 sockets_joueurs = []
