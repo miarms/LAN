@@ -150,7 +150,18 @@ class GameView(tk.Frame):
         self.inventory_module.equiper_objet("Bonnes vieilles godasses")
         self.inventory_module.equiper_objet("Excalibur")
         self.inventory_module.ajouter_consommable("Pizza")
-
+        from client_src.views.monster import MonsterCard
+        
+        # On crée le module Monstre en lui donnant accès à la zone centrale et au Dé
+        self.monster_card = MonsterCard(parent=self.card_display_area, controller=self.controller, dice_module=self.dice_module)
+        
+        # CRASH TEST MONSTRE : On masque temporairement l'accueil pour afficher un monstre
+        self.welcome_card.pack_forget() 
+        self.lbl_action_title.pack_forget()
+        self.buttons_container.pack_forget()
+        
+        self.monster_card.pack(fill=tk.BOTH, expand=True)
+        self.monster_card.generer_rencontre("Wukong")  # Génère Wukong (CA 19 !)
     # =====================================================================
     # INTERACTION : ANIMATION DE SWIPE TINDER
     # =====================================================================

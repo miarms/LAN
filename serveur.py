@@ -2,6 +2,7 @@
 import socket
 import threading
 import os
+import time
 from managers.trahison_manager import TrahisonManager
 
 HOST = '192.168.1.6'
@@ -29,6 +30,13 @@ def envoyer_mise_a_jour_stats():
                 sockets_joueurs[i].sendall(cmd.encode('utf-8'))
             except: pass
 
+def declencher_evenement_aleatoire():
+    """Tire une nouvelle carte au hasard pour continuer la partie."""
+    # Plus tard, on mettra ici un random.choice(["TRAHISON", "MONSTRE", "TRESOR"])
+    # Pour l'instant, on boucle sur les trahisons pour valider l'enchaînement continu
+    diffuser_a_tous("HISTOIRE:Le vent tourne... Le MJ tire une nouvelle carte.\n")
+    trahison_mgr.lancer_dilemme_trahison(sockets_joueurs)
+
 def lancer_partie():
     print("[JEU] Deux joueurs connectés. Lancement de l'ambiance.")
     diffuser_a_tous("HISTOIRE:Les deux joueurs sont presents\n")
@@ -40,7 +48,9 @@ def lancer_partie():
         "===============================================\n"
     )
     diffuser_a_tous(intro_texte)
-    trahison_mgr.lancer_dilemme_trahison(sockets_joueurs)
+    
+    # On lance le premier événement après 3 secondes de suspense
+    threading.Timer(3.0, declencher_evenement_aleatoire).start()
 
 def diffuser_a_tous(message):
     with verrou_joueurs:
@@ -79,16 +89,13 @@ def gerer_client(client_socket, client_address):
             if requete.startswith("CREATION:"):
                 with verrou_fiches:
                     parts = requete.split("|")
-                    # On s'assure de lire les 7 parties (Pseudo, Genre, Race, Classe, PV, EN, PI)
                     if len(parts) >= 7:
                         idx = sockets_joueurs.index(client_socket)
-                        # On décale les index de +1 à cause du Genre !
                         stats_joueurs[idx]["PV"] = int(parts[4])
                         stats_joueurs[idx]["EN"] = int(parts[5])
                         stats_joueurs[idx]["PI"] = int(parts[6])
                         
                     fiches_recues += 1
-                    # Le jeu démarre UNIQUEMENT quand les DEUX fiches sont reçues
                     if fiches_recues == 2:
                         diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
             
@@ -105,26 +112,23 @@ def gerer_client(client_socket, client_address):
                         id_traitre = res["id_traitre"]
                         id_victime = res["id_victime"]
                         
-                        # 1. Le traître paie son ou ses coûts
                         for cout in res["impact_cout"]:
                             stats_joueurs[id_traitre][cout["stat"]] -= cout["val"]
                             
-                        # 2. La victime subit les multiples effets (ex: PV et Energie)
                         for effet in res["impact_effet"]:
                             stats_joueurs[id_victime][effet["stat"]] -= effet["val"]
-                            
-                            # Si c'est un vol, le montant déduit est reversé au traître
                             if effet["vol"]:
                                 stats_joueurs[id_traitre][effet["stat"]] += effet["val"]
                         
-                        # 3. Sécurité vitale : on empêche les jauges de descendre sous 0
                         for i in (0, 1):
                             for s in ("PV", "EN", "PI"):
                                 if stats_joueurs[i][s] < 0: 
                                     stats_joueurs[i][s] = 0
                                     
-                        # On réplique la magie sur l'interface de ton game.py !
                         envoyer_mise_a_jour_stats()
+
+                    # 🔥 LA BOUCLE EST ICI : 4 secondes après la résolution, le MJ tire une autre carte !
+                    threading.Timer(4.0, declencher_evenement_aleatoire).start()
                 
         except ConnectionResetError: break
         except Exception as e: print(f"[ERREUR] {e}"); break
@@ -138,8 +142,6 @@ def gerer_client(client_socket, client_address):
 def demarrer_serveur():
     serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    
-    # 1. On empêche le serveur de faire un blocage infini (1 seconde max)
     serveur.settimeout(1.0) 
     
     try:
@@ -152,18 +154,13 @@ def demarrer_serveur():
                 client_sock, client_addr = serveur.accept()
                 threading.Thread(target=gerer_client, args=(client_sock, client_addr), daemon=True).start()
             except socket.timeout:
-                # 2. Le timeout s'active chaque seconde. 
-                # Le code passe ici silencieusement et repart dans le 'while True', 
-                # ce qui laisse la fenêtre ouverte pour capter ton Ctrl+C !
                 continue
                 
     except KeyboardInterrupt:
-        # 3. Interception propre de ton Ctrl+C
         print("\n[SERVEUR] Arrêt forcé par le MJ (Ctrl+C). Coupure des connexions...")
     except Exception as e: 
         print(f"[ERREUR] : {e}")
     finally:
-        # 4. On ferme proprement le port réseau pour éviter les erreurs "Address already in use" au prochain lancement
         serveur.close()
         print("[SERVEUR] Hors ligne.")
 
