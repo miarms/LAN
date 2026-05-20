@@ -1,124 +1,165 @@
-# client_src/views/monster.py
 import tkinter as tk
 import csv
 import os
 import random
 
 class MonsterCard(tk.Frame):
-    def __init__(self, parent, controller, dice_module):
+    def __init__(self, parent, controller, dice_module, game_view):
         super().__init__(parent, bg="#22252a")
         self.controller = controller
-        self.dice_module = dice_module  # On a besoin du dé pour lui envoyer la CA !
+        self.dice_module = dice_module
+        self.game_view = game_view
         self.monstres = []
+        self.en_combat = False
         
         self.charger_donnees_csv()
 
         self.lbl_title = tk.Label(self, text="", font=("Segoe UI", 12, "bold"), bg="#22252a", fg="#ff5e57")
-        self.lbl_title.pack(pady=(0, 15))
+        self.lbl_title.pack(pady=(0, 10))
 
-        self.card_content = tk.Frame(self, bg="#22252a")
-        self.card_content.pack(fill=tk.BOTH, expand=True)
+        self.fiche_frame = tk.Frame(self, bg="#2d3139", relief=tk.FLAT, padx=15, pady=15)
+        self.fiche_frame.pack(pady=5)
+        
+        self.lbl_nom = tk.Label(self.fiche_frame, text="", font=("Segoe UI", 14, "bold"), bg="#2d3139", fg="#ffffff")
+        self.lbl_nom.pack()
+        
+        self.lbl_stats = tk.Label(self.fiche_frame, text="", font=("Segoe UI", 12, "bold"), bg="#2d3139", fg="#a0a5b0")
+        self.lbl_stats.pack(pady=5)
+        
+        self.lbl_desc = tk.Label(self.fiche_frame, text="", font=("Segoe UI", 10, "italic"), bg="#2d3139", fg="#ffffff", wraplength=260, justify="center")
+        self.lbl_desc.pack(pady=10)
+
+        self.lbl_feedback = tk.Label(self, text="À vous de jouer !", font=("Segoe UI", 11, "bold"), bg="#22252a", fg="#00e5ff")
+        self.lbl_feedback.pack(pady=5)
 
         self.buttons_container = tk.Frame(self, bg="#22252a")
         self.buttons_container.pack(fill=tk.X, pady=5)
 
     def charger_donnees_csv(self):
         chemin_csv = os.path.join("db", "Jeu Mia - Monstres.csv")
-        print(f"[DEBUG MONSTRES] Tentative de lecture de : {chemin_csv}")
-        
-        if not os.path.exists(chemin_csv):
-            print("[ERREUR] Le fichier est introuvable !")
-            return
-            
+        if not os.path.exists(chemin_csv): return
         lignes_nettoyees = []
-        
         with open(chemin_csv, mode='r', encoding='utf-8-sig') as f:
             for ligne in f:
                 ligne = ligne.strip()
-                if not ligne: 
-                    continue
-                
-                # 🛠️ CORRECTION MAGIQUE : On retire la "coquille" de guillemets géants
+                if not ligne: continue
                 if ligne.startswith('"') and ligne.endswith('"') and ligne.count('"') >= 2:
-                    ligne = ligne[1:-1] # On coupe le 1er et dernier guillemet
-                    ligne = ligne.replace('""', '"') # On répare les guillemets intérieurs
-                
+                    ligne = ligne[1:-1]
+                    ligne = ligne.replace('""', '"')
                 lignes_nettoyees.append(ligne)
-                
-        if not lignes_nettoyees:
-            print("[ERREUR] Le fichier est vide !")
-            return
-            
+        if not lignes_nettoyees: return
         separateur = ';' if ';' in lignes_nettoyees[0] else ','
         reader = csv.DictReader(lignes_nettoyees, delimiter=separateur)
-        
         for row in reader:
-            # Recherche souple de la colonne "Nom"
             cle_nom = next((k for k in row.keys() if k and "nom" in k.lower().strip()), None)
             if cle_nom and row.get(cle_nom):
                 self.monstres.append(row)
-                
-        print(f"[DEBUG MONSTRES] SUCCÈS ! J'ai chargé {len(self.monstres)} monstres prêts au combat.")
 
     def generer_rencontre(self, nom_specifique=None):
-        """Pioche un monstre et l'affiche à l'écran."""
-        # On nettoie la zone avant d'afficher un nouveau monstre
-        for widget in self.card_content.winfo_children(): widget.destroy()
-        for widget in self.buttons_container.winfo_children(): widget.destroy()
-
-        if not self.monstres:
-            tk.Label(self.card_content, text="Erreur : Aucun monstre trouvé dans la BDD.", fg="#ff5e57", bg="#22252a").pack()
-            return
-
-        # Sélection du monstre
+        if not self.monstres: return
+        
+        monstre = None
         if nom_specifique:
             monstre = next((m for m in self.monstres if m.get(list(m.keys())[0], "").strip() == nom_specifique), None)
-            if not monstre:
-                monstre = random.choice(self.monstres)
-        else:
+        if not monstre:
             monstre = random.choice(self.monstres)
 
-        # Extraction des données
         keys = list(monstre.keys())
-        nom = monstre.get(keys[0], "Inconnu")
-        ca = monstre.get("CA", "10")
-        pv = monstre.get("PV", "10")
-        degats = monstre.get("Degats", "1d3")
-        desc = monstre.get("Description", "")
-
-        # Mise à jour du titre
-        self.lbl_title.config(text=f"⚠️ UN MONSTRE APPARAÎT : {nom.upper()} ⚠️")
-
-        # Affichage de la fiche
-        fiche = f"[{nom.upper()}]\n\n"
-        fiche += f"❤️ PV : {pv}   |   🛡️ CA : {ca}\n"
-        fiche += f"⚔️ Dégâts : {degats}\n\n"
-        fiche += f"\"{desc}\""
+        self.nom = monstre.get(keys[0], "Inconnu")
+        self.ca = int(monstre.get("CA", "10"))
+        self.pv_max = int(monstre.get("PV", "10"))
+        self.pv_actuel = self.pv_max
+        self.degats_str = monstre.get("Degats", "1d3")
+        self.desc = monstre.get("Description", "")
         
-        tk.Label(
-            self.card_content, text=fiche, font=("Segoe UI", 12, "bold"),
-            bg="#2d3139", fg="#ffffff", width=32, height=15, relief=tk.FLAT, wraplength=280, justify="center"
-        ).pack(pady=10)
+        self.en_combat = True
+        
+        # Le monstre prend le contrôle du Dé !
+        self.dice_module.ca_cible = self.ca
+        self.dice_module.combat_callback = self.resolution_tour_joueur
 
-        # 🔥 LIAISON MAGIQUE : On transmet la CA de ce monstre au module de dés
-        try:
-            self.dice_module.ca_cible = int(ca)
-        except ValueError:
-            pass
+        self.lbl_title.config(text=f"⚠️ UN MONSTRE APPARAÎT ⚠️", fg="#ff5e57")
+        self.lbl_feedback.config(text="C'est votre tour ! Attaquez !", fg="#00e5ff")
+        
+        self.maj_ui_fiche()
+        self.creer_boutons_combat()
+        
+    def maj_ui_fiche(self):
+        self.lbl_nom.config(text=f"[{self.nom.upper()}]")
+        self.lbl_stats.config(text=f"❤️ PV : {self.pv_actuel} / {self.pv_max}   |   🛡️ CA : {self.ca}")
+        self.lbl_desc.config(text=f"⚔️ Dégâts monstre : {self.degats_str}\n\n\"{self.desc}\"")
 
-        # Création des boutons d'action
+    def creer_boutons_combat(self):
+        for w in self.buttons_container.winfo_children(): w.destroy()
         btn_combattre = tk.Button(
-            self.buttons_container, text="⚔️ Combattre (Lancez le dé 🎲)", font=("Segoe UI", 11, "bold"),
+            self.buttons_container, text="⚔️ Attaquer (D20 + Dégâts)", font=("Segoe UI", 11, "bold"),
             bg="#ff5e57", fg="#ffffff", activebackground="#ff3f34", activeforeground="#ffffff",
-            relief=tk.FLAT, bd=0, pady=12, cursor="hand2", 
-            command=lambda: self.dice_module.lancer_combat()
+            relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=self.lancer_attaque
         )
         btn_combattre.pack(fill=tk.X, pady=5)
-        
         btn_fuir = tk.Button(
-            self.buttons_container, text="🏃 Tenter de fuir", font=("Segoe UI", 11),
+            self.buttons_container, text="🏃 Tenter de fuir (D20 >= 11)", font=("Segoe UI", 11),
             bg="#2d3139", fg="#a0a5b0", activebackground="#3a3f47", activeforeground="#ffffff",
-            relief=tk.FLAT, bd=0, pady=12, cursor="hand2", 
-            command=lambda: print("Test de fuite...")
+            relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=self.tenter_fuite
         )
         btn_fuir.pack(fill=tk.X, pady=5)
+        
+    def lancer_attaque(self):
+        if not self.en_combat: return
+        self.lbl_feedback.config(text="Vous attaquez...", fg="#ffffff")
+        for w in self.buttons_container.winfo_children(): w.config(state=tk.DISABLED)
+        self.dice_module.lancer_combat()
+        
+    def resolution_tour_joueur(self, touche, degats_infliges):
+        if not self.en_combat: return
+        
+        if touche:
+            self.pv_actuel -= degats_infliges
+            if self.pv_actuel <= 0:
+                self.pv_actuel = 0
+                self.maj_ui_fiche()
+                self.victoire()
+                return
+            else:
+                self.maj_ui_fiche()
+                self.lbl_feedback.config(text=f"Touché ! (-{degats_infliges} PV au monstre). Au tour de l'ennemi...", fg="#00ff66")
+        else:
+            self.lbl_feedback.config(text="Votre attaque rate ! Le monstre riposte...", fg="#ff5e57")
+            
+        self.after(2000, self.tour_du_monstre)
+
+    def tour_du_monstre(self):
+        if not self.en_combat: return
+        degats_subis = self.dice_module.calculer_degats_bruts(self.degats_str)
+        self.lbl_feedback.config(text=f"🩸 {self.nom} vous frappe et vous perdez {degats_subis} PV !", fg="#ff5e57")
+        self.game_view.subir_degats(degats_subis) # Fait perdre des PV au joueur
+        
+        for w in self.buttons_container.winfo_children(): w.config(state=tk.NORMAL)
+        
+    def tenter_fuite(self):
+        if not self.en_combat: return
+        self.lbl_feedback.config(text="Vous courez ! Lancement du dé...", fg="#ffffff")
+        for w in self.buttons_container.winfo_children(): w.config(state=tk.DISABLED)
+        self.dice_module.lancer_fuite(callback=self.resolution_fuite)
+        
+    def resolution_fuite(self, d20):
+        if d20 >= 11:
+            self.lbl_feedback.config(text=f"Fuite réussie ! (D20: {d20})", fg="#00ff66")
+            self.en_combat = False
+            self.after(2000, self.game_view.terminer_rencontre)
+        else:
+            self.lbl_feedback.config(text=f"Fuite ratée ! (D20: {d20}). Le monstre vous attrape !", fg="#ff5e57")
+            self.after(2000, self.tour_du_monstre)
+            
+    def victoire(self):
+        self.en_combat = False
+        self.lbl_title.config(text="🎉 VICTOIRE ! 🎉", fg="#f1c40f")
+        self.lbl_feedback.config(text=f"{self.nom} a été vaincu !", fg="#f1c40f")
+        
+        for w in self.buttons_container.winfo_children(): w.destroy()
+        btn_suite = tk.Button(
+            self.buttons_container, text="Continuer l'Aventure ➡️", font=("Segoe UI", 11, "bold"),
+            bg="#00ff66", fg="#1a1c20", activebackground="#00cc55", activeforeground="#1a1c20",
+            relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=self.game_view.terminer_rencontre
+        )
+        btn_suite.pack(fill=tk.X, pady=5)
