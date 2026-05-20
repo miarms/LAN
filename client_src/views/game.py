@@ -2,7 +2,7 @@
 import tkinter as tk
 import os
 from PIL import Image, ImageTk
-from client_src.views.dice import DiceModule
+from client_src.views.dice import DiceModule, RACES, CLASSES
 from client_src.views.card import WelcomeCard
 from client_src.views.inventory import InventoryModule
 
@@ -123,25 +123,34 @@ class GameView(tk.Frame):
         self.lbl_action_title = tk.Label(self.card_display_area, text="DÉCISION REQUISE", font=("Segoe UI", 12, "bold"), bg="#22252a", fg="#ffffff")
         self.buttons_container = tk.Frame(self.card_display_area, bg="#22252a")
 
+        # =====================================================================
         # --- COLONNE DROITE : STACK [DÉ] + [INVENTAIRE] ---
+        # =====================================================================
         self.right_column = tk.Frame(self.main_area, bg="#1a1c20", width=260)
         self.right_column.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False, padx=(10, 0))
         self.right_column.pack_propagate(False)
 
-        self.dice_panel = tk.Frame(self.right_column, bg="#1a1c20")
-        self.dice_panel.pack(side=tk.TOP, fill=tk.BOTH, expand=True, pady=(0, 10))
-        self.dice_module = DiceModule(parent=self.dice_panel, controller=controller)
-        self.dice_module.pack(fill=tk.BOTH, expand=True)
-
+        # 1. On crée d'abord l'INVENTAIRE
         self.inventory_panel = tk.Frame(self.right_column, bg="#22252a", padx=15, pady=15, highlightbackground="#3a3f47", highlightthickness=1)
         self.inventory_panel.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
         tk.Label(self.inventory_panel, text="🎒 INVENTAIRE", font=("Segoe UI", 9, "bold"), bg="#22252a", fg="#a0a5b0").pack(anchor="w", pady=(0, 10))
         
-        # ◄ ON INTÈGRE LE NOUVEAU MODULE ICI ! ►
         self.inventory_module = InventoryModule(parent=self.inventory_panel, controller=self.controller)
         self.inventory_module.pack(fill=tk.BOTH, expand=True)
+
+        # 2. On crée ensuite le DÉ au-dessus (expand=False pour ne pas écraser la hauteur)
+        self.dice_panel = tk.Frame(self.right_column, bg="#1a1c20")
+        self.dice_panel.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(0, 10))
         
+        self.dice_module = DiceModule(parent=self.dice_panel, controller=controller, inventory_module=self.inventory_module)
+        self.dice_module.pack(fill=tk.X, expand=False)
+        
+        # CRASH TEST (Charge les objets au lancement)
+        self.inventory_module.equiper_objet("Bonnes vieilles godasses")
+        self.inventory_module.equiper_objet("Excalibur")
+        self.inventory_module.ajouter_consommable("Pizza")
+
     # =====================================================================
     # INTERACTION : ANIMATION DE SWIPE TINDER
     # =====================================================================
@@ -200,7 +209,6 @@ class GameView(tk.Frame):
 
     def configurer_nom_joueur(self, pseudo, race, classe):
         self.lbl_player.config(text=f"{pseudo} ({race} {classe})")
-        from client_src.views.dice import RACES, CLASSES
         if race in RACES and classe in CLASSES:
             self.stats_completes = {
                 "FORCE (FOR)": RACES[race]["FOR"] + CLASSES[classe]["FOR"],
@@ -229,7 +237,7 @@ class GameView(tk.Frame):
         self.controller.envoyer_choix_action(bouton_id)
 
     # =====================================================================
-    # NOUVELLES MÉTHODES : GESTION DES TRAHISONS
+    # LOGIQUE : GESTION DES TRAHISONS
     # =====================================================================
     def nettoyer_zone_centrale(self):
         """Nettoie l'image et les boutons sans casser ta structure de base."""
@@ -282,7 +290,6 @@ class GameView(tk.Frame):
                 bg="#ff5e57", fg="#ffffff", activebackground="#ff3f34", activeforeground="#ffffff",
                 relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=lambda: self.decision_trahison("ACTIVER", nom)
             )
-            # Affichage reprenant ton style vertical
             btn_activer.pack(fill=tk.X, pady=5)
 
             btn_ignorer = tk.Button(
