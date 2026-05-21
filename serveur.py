@@ -23,6 +23,9 @@ stats_joueurs = {
     1: {"PV": 150, "EN": 150, "PI": 0}
 }
 
+# 🔥 NOUVEAU : On mémorise la récompense du monstre en cours
+monstre_actuel_recompense = 0
+
 def envoyer_mise_a_jour_stats():
     if len(sockets_joueurs) == 2:
         for i in (0, 1):
@@ -31,7 +34,8 @@ def envoyer_mise_a_jour_stats():
             except: pass
 
 def declencher_evenement_aleatoire():
-    """Le MJ tire aléatoirement un Monstre ou une Trahison"""
+    global monstre_actuel_recompense
+    
     print("\n[SERVEUR] 🎲 Le MJ est en train de piocher une carte...")
     diffuser_a_tous("HISTOIRE:Le vent tourne... Le MJ pioche une nouvelle carte.\n")
     
@@ -50,7 +54,14 @@ def declencher_evenement_aleatoire():
             degats = monstre.get("Degats", "1d3")
             desc = monstre.get("Description", "")
             
-            print(f"[SERVEUR] 🐉 Le monstre envoyé est : {nom} (PV:{pv}, CA:{ca})")
+            # 🔥 LECTURE INTELLIGENTE DU CSV 🔥
+            try:
+                # On cherche ta colonne exacte "Recompense_Pieces" (10 pièces par défaut si vide)
+                monstre_actuel_recompense = int(monstre.get("Recompense_Pieces", 10))
+            except ValueError:
+                monstre_actuel_recompense = 10
+                
+            print(f"[SERVEUR] 🐉 Le monstre envoyé est : {nom} (Butin: {monstre_actuel_recompense} pièces)")
             msg = f"MONSTRE:{nom}|{ca}|{pv}|{degats}|{desc}\n"
             diffuser_a_tous(msg)
         else:
@@ -75,6 +86,7 @@ def diffuser_a_tous(message):
 
 def gerer_client(client_socket, client_address):
     global fiches_recues
+    global monstre_actuel_recompense # On utilise la variable ici aussi
     print(f"[RESEAU] Connexion depuis : {client_address}")
     
     commencer_jeu = False
@@ -86,7 +98,7 @@ def gerer_client(client_socket, client_address):
             if len(sockets_joueurs) == 2:
                 commencer_jeu = True
         else:
-            try: client_socket.sendall("HISTOIRE:[ERREUR] Le donjon complet.\n".encode('utf-8'))
+            try: client_socket.sendall("HISTOIRE:[ERREUR] Le donjon est complet.\n".encode('utf-8'))
             except: pass
             client_socket.close()
             return
@@ -109,14 +121,28 @@ def gerer_client(client_socket, client_address):
                         stats_joueurs[idx]["EN"] = int(parts[5])
                         stats_joueurs[idx]["PI"] = int(parts[6])
                     fiches_recues += 1
-                    # J'ai remis le ">= 2" et la phrase infaillible au cas où on utilise la V2
+                    
                     if fiches_recues >= 2:
                         diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
                         diffuser_a_tous("ORDRE:START_GAME\n") 
-                        threading.Timer(3.0, declencher_evenement_aleatoire).start()
+                        threading.Timer(4.0, declencher_evenement_aleatoire).start()
                         
+            # 🔥 LE CLIENT GAGNE SON BUTIN 🔥
             if requete == "FIN_COMBAT":
-                diffuser_a_tous("HISTOIRE:⚔️ Le combat prend fin... Reprenez votre souffle.\n")
+                idx = sockets_joueurs.index(client_socket)
+                
+                # On ajoute les pièces au joueur qui a achevé le monstre
+                stats_joueurs[idx]["PI"] += monstre_actuel_recompense
+                
+                # On annonce la couleur
+                diffuser_a_tous(f"HISTOIRE:⚔️ VICTOIRE ! {monstre_actuel_recompense} pièces ont été récupérées sur le monstre !\n")
+                diffuser_a_tous("HISTOIRE:Le calme revient... Le donjon attend votre prochain pas.\n")
+                
+                envoyer_mise_a_jour_stats() # La jauge en haut à droite va monter toute seule !
+                
+                # On remet le butin à zéro pour le prochain monstre
+                monstre_actuel_recompense = 0 
+                
                 threading.Timer(4.0, declencher_evenement_aleatoire).start()
             
             if requete.startswith("TRAHISON:CHOIX|"):
