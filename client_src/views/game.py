@@ -176,6 +176,9 @@ class GameView(tk.Frame):
         # On transmet les infos et SURTOUT on l'affiche avec .pack() !
         self.monster_card.generer_rencontre_via_serveur(nom, ca, pv, degats, desc)
         self.monster_card.pack(expand=True, fill=tk.BOTH)
+        
+        # Force l'apparition immédiate par-dessus le reste
+        self.update_idletasks()
 
     def masquer_infobulle(self, event):
         if hasattr(self, 'tooltip') and self.tooltip:
@@ -192,12 +195,12 @@ class GameView(tk.Frame):
     # LE "NETTOYEUR" (Empêche d'avoir 2 cartes en même temps !)
     # =====================================================================
     def nettoyer_zone_centrale(self):
-        # 1. On cache la carte de bienvenue
-        if hasattr(self, 'welcome_card') and self.welcome_card.winfo_ismapped():
+        # 1. On cache la carte de bienvenue SANS condition !
+        if hasattr(self, 'welcome_card'):
             self.welcome_card.pack_forget()
             
-        # 2. On cache la carte Monstre
-        if hasattr(self, 'monster_card') and self.monster_card.winfo_ismapped():
+        # 2. On cache la carte Monstre SANS condition !
+        if hasattr(self, 'monster_card'):
             self.monster_card.pack_forget()
             
         # 3. On détruit l'image Trahison
@@ -213,6 +216,9 @@ class GameView(tk.Frame):
         self.lbl_action_title.config(text="EN ATTENTE...", fg="#ffffff")
         self.lbl_action_title.pack(anchor="n", pady=(10, 15))
         self.buttons_container.pack(fill=tk.X, anchor="n")
+        
+        # 6. On force l'interface à se mettre à jour instantanément
+        self.update_idletasks()
 
     def terminer_rencontre(self):
         """Appelée quand on bat le monstre ou qu'on fuit"""
