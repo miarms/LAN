@@ -1,3 +1,4 @@
+# client_src/views/monster.py
 import tkinter as tk
 import csv
 import os
@@ -55,35 +56,33 @@ class MonsterCard(tk.Frame):
             if cle_nom and row.get(cle_nom):
                 self.monstres.append(row)
 
-    def generer_rencontre(self, nom_specifique=None):
-        if not self.monstres: return
-        
-        monstre = None
-        if nom_specifique:
-            monstre = next((m for m in self.monstres if m.get(list(m.keys())[0], "").strip() == nom_specifique), None)
-        if not monstre:
-            monstre = random.choice(self.monstres)
-
-        keys = list(monstre.keys())
-        self.nom = monstre.get(keys[0], "Inconnu")
-        self.ca = int(monstre.get("CA", "10"))
-        self.pv_max = int(monstre.get("PV", "10"))
+    # =========================================================
+    # 🔥 LA FONCTION QUI TE MANQUAIT EST LÀ 🔥
+    # =========================================================
+    def generer_rencontre_via_serveur(self, nom, ca, pv, degats, desc):
+        """Reçoit l'ordre du MJ (serveur) et affiche le monstre"""
+        self.nom = nom
+        self.ca = int(ca)
+        self.pv_max = int(pv)
         self.pv_actuel = self.pv_max
-        self.degats_str = monstre.get("Degats", "1d3")
-        self.desc = monstre.get("Description", "")
-        
+        self.degats_str = degats
+        self.desc = desc
         self.en_combat = True
         
-        # Le monstre prend le contrôle du Dé !
-        self.dice_module.ca_cible = self.ca
-        self.dice_module.combat_callback = self.resolution_tour_joueur
-
-        self.lbl_title.config(text=f"⚠️ UN MONSTRE APPARAÎT ⚠️", fg="#ff5e57")
+        # Mise à jour de l'UI
+        self.lbl_title.config(text="⚠️ UN MONSTRE APPARAÎT ⚠️", fg="#ff5e57")
         self.lbl_feedback.config(text="C'est votre tour ! Attaquez !", fg="#00e5ff")
         
         self.maj_ui_fiche()
         self.creer_boutons_combat()
         
+        # Le monstre prend le contrôle du Dé !
+        self.dice_module.ca_cible = self.ca
+        self.dice_module.combat_callback = self.resolution_tour_joueur
+
+    # =========================================================
+    # LE RESTE DU MOTEUR DE COMBAT
+    # =========================================================
     def maj_ui_fiche(self):
         self.lbl_nom.config(text=f"[{self.nom.upper()}]")
         self.lbl_stats.config(text=f"❤️ PV : {self.pv_actuel} / {self.pv_max}   |   🛡️ CA : {self.ca}")
@@ -91,12 +90,14 @@ class MonsterCard(tk.Frame):
 
     def creer_boutons_combat(self):
         for w in self.buttons_container.winfo_children(): w.destroy()
+        
         btn_combattre = tk.Button(
             self.buttons_container, text="⚔️ Attaquer (D20 + Dégâts)", font=("Segoe UI", 11, "bold"),
             bg="#ff5e57", fg="#ffffff", activebackground="#ff3f34", activeforeground="#ffffff",
             relief=tk.FLAT, bd=0, pady=12, cursor="hand2", command=self.lancer_attaque
         )
         btn_combattre.pack(fill=tk.X, pady=5)
+        
         btn_fuir = tk.Button(
             self.buttons_container, text="🏃 Tenter de fuir (D20 >= 11)", font=("Segoe UI", 11),
             bg="#2d3139", fg="#a0a5b0", activebackground="#3a3f47", activeforeground="#ffffff",
@@ -126,14 +127,18 @@ class MonsterCard(tk.Frame):
         else:
             self.lbl_feedback.config(text="Votre attaque rate ! Le monstre riposte...", fg="#ff5e57")
             
+        # Après ton attaque, on attend 2 secondes puis c'est au monstre
         self.after(2000, self.tour_du_monstre)
 
     def tour_du_monstre(self):
         if not self.en_combat: return
         degats_subis = self.dice_module.calculer_degats_bruts(self.degats_str)
         self.lbl_feedback.config(text=f"🩸 {self.nom} vous frappe et vous perdez {degats_subis} PV !", fg="#ff5e57")
-        self.game_view.subir_degats(degats_subis) # Fait perdre des PV au joueur
         
+        # Fait perdre des PV au joueur sur la jauge en haut
+        self.game_view.subir_degats(degats_subis) 
+        
+        # On redonne la main au joueur
         for w in self.buttons_container.winfo_children(): w.config(state=tk.NORMAL)
         
     def tenter_fuite(self):
@@ -146,6 +151,7 @@ class MonsterCard(tk.Frame):
         if d20 >= 11:
             self.lbl_feedback.config(text=f"Fuite réussie ! (D20: {d20})", fg="#00ff66")
             self.en_combat = False
+            # On termine la rencontre et le serveur piochera une autre carte
             self.after(2000, self.game_view.terminer_rencontre)
         else:
             self.lbl_feedback.config(text=f"Fuite ratée ! (D20: {d20}). Le monstre vous attrape !", fg="#ff5e57")
@@ -157,6 +163,8 @@ class MonsterCard(tk.Frame):
         self.lbl_feedback.config(text=f"{self.nom} a été vaincu !", fg="#f1c40f")
         
         for w in self.buttons_container.winfo_children(): w.destroy()
+        
+        # Ce bouton envoie "FIN_COMBAT" au serveur via terminer_rencontre
         btn_suite = tk.Button(
             self.buttons_container, text="Continuer l'Aventure ➡️", font=("Segoe UI", 11, "bold"),
             bg="#00ff66", fg="#1a1c20", activebackground="#00cc55", activeforeground="#1a1c20",

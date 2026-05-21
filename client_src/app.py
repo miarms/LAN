@@ -95,6 +95,21 @@ class MainApplication(tk.Tk):
                         parts = dict(item.split("=") for item in contenu.split(","))
                         self.views["GameView"].mettre_a_jour_stats(parts["PV"], parts["EN"], parts["PI"])
                     except: pass
+
+                # =========================================================
+                # 🔥 NOUVEAU BLOC : LECTURE DE LA CARTE MONSTRE 🔥
+                # =========================================================
+                elif ligne.startswith("MONSTRE:"):
+                    try:
+                        contenu = ligne.replace("MONSTRE:", "")
+                        parts = contenu.split("|") 
+                        if len(parts) >= 5:
+                            nom, ca, pv, degats, desc = parts[0], parts[1], parts[2], parts[3], parts[4]
+                            # On appelle la nouvelle fonction qui affiche et dessine la carte
+                            self.views["GameView"].afficher_carte_monstre(nom, ca, pv, degats, desc)
+                    except Exception as e: 
+                        print(f"[ERREUR MONSTRE] {e}")
+                # =========================================================
                 
                 # Réception d'une carte Trahison face DECOUVERTE (pour le Traître)
                 elif ligne.startswith("TRAHISON:DECOUVERTE|"):

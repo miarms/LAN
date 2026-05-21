@@ -164,6 +164,18 @@ class GameView(tk.Frame):
         for idx, (stat, val) in enumerate(self.stats_completes.items(), 1):
             tk.Label(self.tooltip, text=stat, font=("Segoe UI", 10), bg="#22252a", fg="#a0a5b0").grid(row=idx, column=0, sticky="w", pady=2)
             tk.Label(self.tooltip, text=str(val), font=("Segoe UI", 10, "bold"), bg="#22252a", fg="#ffffff").grid(row=idx, column=1, sticky="e", padx=(25, 0), pady=2)
+    
+    def afficher_carte_monstre(self, nom, ca, pv, degats, desc):
+        """Affiche officiellement le monstre à l'écran"""
+        self.nettoyer_zone_centrale()
+        
+        # On cache les titres par défaut car la carte Monstre a les siens
+        self.lbl_action_title.pack_forget()
+        self.buttons_container.pack_forget()
+        
+        # On transmet les infos et SURTOUT on l'affiche avec .pack() !
+        self.monster_card.generer_rencontre_via_serveur(nom, ca, pv, degats, desc)
+        self.monster_card.pack(expand=True, fill=tk.BOTH)
 
     def masquer_infobulle(self, event):
         if hasattr(self, 'tooltip') and self.tooltip:
@@ -206,7 +218,13 @@ class GameView(tk.Frame):
         """Appelée quand on bat le monstre ou qu'on fuit"""
         self.nettoyer_zone_centrale()
         self.lbl_action_title.config(text="LE CALME REVIENT... EN ATTENTE DU MJ", fg="#a0a5b0")
-
+        self.lbl_action_title.pack(anchor="n", pady=(10, 15))
+        
+        # 🔥 ON PRÉVIENT LE SERVEUR QUE C'EST FINI ! 🔥
+        if self.controller.client_socket:
+            try:
+                self.controller.client_socket.sendall("FIN_COMBAT\n".encode('utf-8'))
+            except: pass
     # =====================================================================
     # AFFICHAGE DES TRAHISONS
     # =====================================================================
