@@ -153,6 +153,15 @@ class GameView(tk.Frame):
         self.mettre_a_jour_stats(nouveau_pv, int(self.en_lbl.cget("text")), int(self.pieces_lbl.cget("text").split()[0]))
         self.ajouter_narration(f"Vous perdez {degats} PV !")
         
+        # 🔥 ON CONFIRME LA BLESSURE AU SERVEUR 🔥
+        if self.controller.client_socket:
+            try:
+                en = int(self.en_lbl.cget("text"))
+                pi = int(self.pieces_lbl.cget("text").split()[0])
+                msg = f"MAJ_MES_STATS|{nouveau_pv}|{en}|{pi}\n"
+                self.controller.client_socket.sendall(msg.encode('utf-8'))
+            except: pass
+        
     def afficher_infobulle(self, event):
         if not self.stats_completes: return
         self.tooltip = tk.Toplevel(self)

@@ -118,6 +118,16 @@ class MonsterCard(tk.Frame):
             self.pv_actuel -= degats_infliges
             if self.pv_actuel <= 0:
                 self.pv_actuel = 0
+                
+            # 🔥 NOUVEAU : On informe le serveur du coup porté ! 🔥
+            if self.controller.client_socket:
+                try:
+                    pseudo = self.controller.mon_pseudo
+                    msg = f"SYNC_MONSTRE|{self.pv_actuel}|{pseudo}|{degats_infliges}\n"
+                    self.controller.client_socket.sendall(msg.encode('utf-8'))
+                except: pass
+
+            if self.pv_actuel <= 0:
                 self.maj_ui_fiche()
                 self.victoire()
                 return
@@ -127,7 +137,6 @@ class MonsterCard(tk.Frame):
         else:
             self.lbl_feedback.config(text="Votre attaque rate ! Le monstre riposte...", fg="#ff5e57")
             
-        # Après ton attaque, on attend 2 secondes puis c'est au monstre
         self.after(2000, self.tour_du_monstre)
 
     def tour_du_monstre(self):

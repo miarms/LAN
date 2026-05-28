@@ -110,7 +110,29 @@ class MainApplication(tk.Tk):
                     except Exception as e: 
                         print(f"[ERREUR MONSTRE] {e}")
                 # =========================================================
-                
+                # =========================================================
+                # 🔥 SYNCHRONISATION DU COMBAT EN DIRECT 🔥
+                # =========================================================
+                elif ligne.startswith("SYNC_MONSTRE|"):
+                    try:
+                        parts = ligne.split("|")
+                        pv_restants = int(parts[1])
+                        pseudo_attaquant = parts[2]
+                        degats = parts[3]
+                        
+                        m_card = self.views["GameView"].monster_card
+                        if m_card and getattr(m_card, 'en_combat', False):
+                            m_card.pv_actuel = pv_restants
+                            m_card.maj_ui_fiche() # Met à jour la barre de vie visuellement
+                            
+                            # Si c'est l'allié qui a tapé, on affiche son exploit sur TON écran
+                            if pseudo_attaquant != self.mon_pseudo:
+                                if pv_restants <= 0:
+                                    m_card.lbl_feedback.config(text=f"☠️ {pseudo_attaquant} a terrassé le monstre !", fg="#f1c40f")
+                                    m_card.en_combat = False # Stoppe le combat sur cet écran sans renvoyer FIN_COMBAT
+                                else:
+                                    m_card.lbl_feedback.config(text=f"⚔️ {pseudo_attaquant} a infligé {degats} dégâts !", fg="#f1c40f")
+                    except Exception as e: print(f"[ERREUR SYNC] {e}")
                 # Réception d'une carte Trahison face DECOUVERTE (pour le Traître)
                 elif ligne.startswith("TRAHISON:DECOUVERTE|"):
                     try:

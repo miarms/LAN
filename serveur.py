@@ -110,60 +110,63 @@ def gerer_client(client_socket, client_address):
         try:
             donnees = client_socket.recv(1024)
             if not donnees: break
-            requete = donnees.decode('utf-8').strip()
             
-            if requete.startswith("CREATION:"):
-                with verrou_fiches:
-                    parts = requete.split("|")
-                    if len(parts) >= 7:
-                        idx = sockets_joueurs.index(client_socket)
-                        stats_joueurs[idx]["PV"] = int(parts[4])
-                        stats_joueurs[idx]["EN"] = int(parts[5])
-                        stats_joueurs[idx]["PI"] = int(parts[6])
-                    fiches_recues += 1
-                    
-                    if fiches_recues >= 2:
-                        diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
-                        diffuser_a_tous("ORDRE:START_GAME\n") 
-                        threading.Timer(4.0, declencher_evenement_aleatoire).start()
+            # 🔥 CORRECTION CRUCIALE : On sépare les messages s'ils arrivent collés
+            messages = donnees.decode('utf-8').split('\n')
+            
+            for requete in messages:
+                requete = requete.strip()
+                if not requete: continue
+                
+                if requete.startswith("CREATION:"):
+                    with verrou_fiches:
+                        parts = requete.split("|")
+                        if len(parts) >= 7:
+                            idx = sockets_joueurs.index(client_socket)
+                            stats_joueurs[idx]["PV"] = int(parts[4])
+                            stats_joueurs[idx]["EN"] = int(parts[5])
+                            stats_joueurs[idx]["PI"] = int(parts[6])
+                        fiches_recues += 1
                         
-            # 🔥 LE CLIENT GAGNE SON BUTIN 🔥
-            if requete == "FIN_COMBAT":
-                idx = sockets_joueurs.index(client_socket)
-                
-                # On ajoute les pièces au joueur qui a achevé le monstre
-                stats_joueurs[idx]["PI"] += monstre_actuel_recompense
-                
-                # On annonce la couleur
-                diffuser_a_tous(f"HISTOIRE:⚔️ VICTOIRE ! {monstre_actuel_recompense} pièces ont été récupérées sur le monstre !\n")
-                diffuser_a_tous("HISTOIRE:Le calme revient... Le donjon attend votre prochain pas.\n")
-                
-                envoyer_mise_a_jour_stats() # La jauge en haut à droite va monter toute seule !
-                
-                # On remet le butin à zéro pour le prochain monstre
-                monstre_actuel_recompense = 0 
-                
-                threading.Timer(4.0, declencher_evenement_aleatoire).start()
-            
-            if requete.startswith("TRAHISON:CHOIX|"):
-                parts = requete.split("|")
-                res = trahison_mgr.resoudre_choix(choix=parts[1], nom_carte=parts[2])
-                if res:
-                    diffuser_a_tous(res["texte_histoire"])
-                    diffuser_a_tous("TRAHISON:NETTOYER\n")
-                    if res["choix"] == "ACTIVER":
-                        id_traitre, id_victime = res["id_traitre"], res["id_victime"]
-                        for cout in res["impact_cout"]: stats_joueurs[id_traitre][cout["stat"]] -= cout["val"]
-                        for effet in res["impact_effet"]:
-                            stats_joueurs[id_victime][effet["stat"]] -= effet["val"]
-                            if effet["vol"]: stats_joueurs[id_traitre][effet["stat"]] += effet["val"]
-                        for i in (0, 1):
-                            for s in ("PV", "EN", "PI"):
-                                if stats_joueurs[i][s] < 0: stats_joueurs[i][s] = 0
-                        envoyer_mise_a_jour_stats()
+                        if fiches_recues >= 2:
+                            diffuser_a_tous("HISTOIRE:Fiches de personnages synchronisees\n")
+                            diffuser_a_tous("ORDRE:START_GAME\n") 
+                            threading.Timer(4.0, declencher_evenement_aleatoire).start()
+                            
+                # 🔥 LE SERVEUR RELAIE LES COUPS D'ÉPÉE À TOUT LE MONDE 🔥
+                elif requete.startswith("SYNC_MONSTRE|"):
+                    diffuser_a_tous(f"{requete}\n")
+                            
+                elif requete == "FIN_COMBAT":
+                    idx = sockets_joueurs.index(client_socket)
+                    stats_joueurs[idx]["PI"] += monstre_actuel_recompense
+                    
+                    diffuser_a_tous(f"HISTOIRE:⚔️ VICTOIRE ! {monstre_actuel_recompense} pièces ont été récupérées sur le monstre !\n")
+                    diffuser_a_tous("HISTOIRE:Le calme revient... Le donjon attend votre prochain pas.\n")
+                    
+                    envoyer_mise_a_jour_stats() 
+                    monstre_actuel_recompense = 0 
                     
                     threading.Timer(4.0, declencher_evenement_aleatoire).start()
                 
+                elif requete.startswith("TRAHISON:CHOIX|"):
+                    parts = requete.split("|")
+                    res = trahison_mgr.resoudre_choix(choix=parts[1], nom_carte=parts[2])
+                    if res:
+                        diffuser_a_tous(res["texte_histoire"])
+                        diffuser_a_tous("TRAHISON:NETTOYER\n")
+                        if res["choix"] == "ACTIVER":
+                            id_traitre, id_victime = res["id_traitre"], res["id_victime"]
+                            for cout in res["impact_cout"]: stats_joueurs[id_traitre][cout["stat"]] -= cout["val"]
+                            for effet in res["impact_effet"]:
+                                stats_joueurs[id_victime][effet["stat"]] -= effet["val"]
+                                if effet["vol"]: stats_joueurs[id_traitre][effet["stat"]] += effet["val"]
+                            for i in (0, 1):
+                                for s in ("PV", "EN", "PI"):
+                                    if stats_joueurs[i][s] < 0: stats_joueurs[i][s] = 0
+                            envoyer_mise_a_jour_stats()
+                        
+                        threading.Timer(4.0, declencher_evenement_aleatoire).start()
         except ConnectionResetError: break
         except Exception as e: print(f"[ERREUR] {e}"); break
 
